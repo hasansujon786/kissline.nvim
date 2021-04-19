@@ -6,32 +6,32 @@ function! kissline#_layout_active()
   let statusline.="%{kissline#_update_color()}"
 
   if (exists('g:kissline_banner_is_hidden') && !g:kissline_banner_is_hidden)
-    let statusline.="%#StatusLine_banner#"
+    let statusline.="%#Kissline_banner#"
     let statusline.=g:kissline.component.banner
     let statusline.="%=" " (Middle) align from right
   else
     " first level
-    let statusline.="%#StatusLine_active_0#"
+    let statusline.="%#Kissline_active_0#"
     let statusline.=g:kissline.component.mode
     let statusline.=g:kissline.component.readonly
     let statusline.=g:kissline.component.spell
     let statusline.=g:kissline.component.wrap
-    let statusline.="%#StatusLine_active_0_alt#"
+    let statusline.="%#Kissline_active_0_alt#"
     let statusline.=g:kissline.separator.left
 
     " second level
-    let statusline.="%#StatusLine_active_1#"
+    let statusline.="%#Kissline_active_1#"
     let statusline.=g:kissline.separator.space
     let statusline.=g:kissline.component.modified
     let statusline.=g:kissline.separator.space
     let statusline.="%<" " truncate left
     let statusline.=g:kissline.component.filename
     let statusline.=g:kissline.separator.space
-    let statusline.="%#StatusLine_active_1_alt#"
+    let statusline.="%#Kissline_active_1_alt#"
     let statusline.=g:kissline.separator.left
 
     " third level
-    let statusline.="%#StatusLine_active_middle#"
+    let statusline.="%#Kissline_active_middle#"
     let statusline.=g:kissline.separator.space
     let statusline.=g:kissline.component.coc_status
     let statusline.=g:kissline.separator.space
@@ -39,7 +39,7 @@ function! kissline#_layout_active()
     let statusline.="%=" " (Middle) align from right
 
     " third level
-    let statusline.="%#StatusLine_active_middle#"
+    let statusline.="%#Kissline_active_middle#"
     let statusline.=g:kissline.separator.space
     let statusline.=g:kissline.component.tasktimer_status
     let statusline.=g:kissline.separator.space
@@ -53,17 +53,17 @@ function! kissline#_layout_active()
     let statusline.=g:kissline.separator.space
 
     " second level
-    let statusline.="%#StatusLine_active_1_alt#"
+    let statusline.="%#Kissline_active_1_alt#"
     let statusline.=g:kissline.separator.right
-    let statusline.="%#StatusLine_active_1#"
+    let statusline.="%#Kissline_active_1#"
     let statusline.=g:kissline.separator.space
     let statusline.=g:kissline.component.percent
     let statusline.=g:kissline.separator.space
 
     " first level
-    let statusline.="%#StatusLine_active_0_alt#"
+    let statusline.="%#Kissline_active_0_alt#"
     let statusline.=g:kissline.separator.right
-    let statusline.="%#StatusLine_active_0#"
+    let statusline.="%#Kissline_active_0#"
     let statusline.=g:kissline.separator.space
     let statusline.=g:kissline.component.lineinfo
     let statusline.=g:kissline.separator.space
@@ -78,23 +78,23 @@ endfunction
 " kissline#_layout_inactive {{{
 function! kissline#_layout_inactive()
   let statusline=""
-  let statusline.="%#StatusLine_inactive_1#"
+  let statusline.="%#Kissline_inactive_1#"
   let statusline.=g:kissline.separator.space
   let statusline.=g:kissline.component.modified
   let statusline.=g:kissline.separator.space
   let statusline.="%<" " turncate left
   let statusline.=g:kissline.component.filename
   let statusline.=g:kissline.separator.space
-  let statusline.="%#StatusLine_inactive_1_alt#"
+  let statusline.="%#Kissline_inactive_1_alt#"
   let statusline.=g:kissline.separator.left
   let statusline.="%#StatusLineNC#"
 
   let statusline.="%=" " (Middle) align from right
 
   let statusline.="%#StatusLineNC#"
-  let statusline.="%#StatusLine_inactive_1_alt#"
+  let statusline.="%#Kissline_inactive_1_alt#"
   let statusline.=g:kissline.separator.right
-  let statusline.="%#StatusLine_inactive_1#"
+  let statusline.="%#Kissline_inactive_1#"
   let statusline.=g:kissline.separator.space
   let statusline.=g:kissline.component.lineinfo
   let statusline.=g:kissline.separator.space
@@ -136,8 +136,8 @@ function! kissline#_update_color() abort
     return ''
   endif
   let s:mode = mode
-  exec printf('hi! link StatusLine_active_0     StatusLine_active_0_%s', mode)
-  exec printf('hi! link StatusLine_active_0_alt StatusLine_active_0_%s_alt', mode)
+  exec printf('hi! link Kissline_active_0     Kissline_active_0_%s', mode)
+  exec printf('hi! link Kissline_active_0_alt Kissline_active_0_%s_alt', mode)
   return ''
 endfunction
 
