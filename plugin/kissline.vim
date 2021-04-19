@@ -27,6 +27,7 @@ let g:kissline_icons = {
   \ 'cup':      '',
   \ 'search':   '',
   \ 'pomodoro': '',
+  \ 'big_dot':  '●',
   \}
 
 
@@ -38,7 +39,7 @@ let g:kissline = {
   \   'readonly': "%{&readonly?'\ ".g:kissline_icons.lock." ':''}",
   \   'spell': "%{&spell?'\ ".g:kissline_icons.dic." ':''}",
   \   'wrap': "%{&wrap?'\ ".g:kissline_icons.wrap." ':''}",
-  \   'modified': "%{&modified? '●' : kissline#_get_icon()}",
+  \   'modified': "%{&modified? g:kissline_icons.big_dot : kissline#_get_icon()}",
   \   'space_width': "%{&expandtab?'Spc:'.&shiftwidth:'Tab:'.&shiftwidth}",
   \   'filetype': "%{''!=#&filetype?&filetype:'none'}",
   \   'filename': "%t",

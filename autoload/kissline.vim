@@ -184,11 +184,19 @@ function! kissline#_hide_banner(timer_id) abort
 endfunction
 
 function kissline#_get_icon()
-  if g:kissline_icon_renderer == 'nvim-web-devicons'
-    return kissline#icon#nvim_web_devicons()
-  else
+  try
+    if g:kissline_icon_renderer == 'nvim-web-devicons'
+      return kissline#icon#nvim_web_devicons()
+    elseif g:kissline_icon_renderer == 'vim-devicons'
+      return WebDevIconsGetFileTypeSymbol()
+    elseif g:kissline_icon_renderer == 'nerdfont.vim'
+      return nerdfont#find()
+    else
+      return '-'
+    endif
+  catch
     return '-'
-  endif
+  endtry
 endfunction
 
 " }}}
