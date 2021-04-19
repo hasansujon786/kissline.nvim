@@ -182,5 +182,14 @@ function! kissline#_hide_banner(timer_id) abort
   let g:kissline_banner_is_hidden = 1
   call kissline#_update_all()
 endfunction
+
+function kissline#_get_icon()
+  if g:kissline_icon_renderer == 'nvim-web-devicons'
+    return kissline#icon#nvim_web_devicons()
+  else
+    return '-'
+  endif
+endfunction
+
 " }}}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

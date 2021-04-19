@@ -6,13 +6,12 @@ if exists('g:loaded_kissline') || &cp
   finish
 endif
 
-let g:loaded_kissline = 1
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Global values {{{
-let g:nerdfont_loaded = 0
+let g:loaded_kissline = 1
 let g:kissline_banner_msg = ''
 let g:kissline_banner_is_hidden = 1
+let g:kissline_icon_renderer = get(g:,'kissline_icon_renderer', 'none')
 
 let g:kissline_icons = {
   \ 'lock':     '',
@@ -39,7 +38,7 @@ let g:kissline = {
   \   'readonly': "%{&readonly?'\ ".g:kissline_icons.lock." ':''}",
   \   'spell': "%{&spell?'\ ".g:kissline_icons.dic." ':''}",
   \   'wrap': "%{&wrap?'\ ".g:kissline_icons.wrap." ':''}",
-  \   'modified': "%{&modified?'●':!g:nerdfont_loaded?'':nerdfont#find()}",
+  \   'modified': "%{&modified? '●' : kissline#_get_icon()}",
   \   'space_width': "%{&expandtab?'Spc:'.&shiftwidth:'Tab:'.&shiftwidth}",
   \   'filetype': "%{''!=#&filetype?&filetype:'none'}",
   \   'filename': "%t",
