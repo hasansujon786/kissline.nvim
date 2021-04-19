@@ -61,7 +61,7 @@ endfunction
 
 "   let bg = get(s:status_color, g:vim_current_mode, 'n')
 
-"   if (exists('g:statusline_banner_is_hidden') && !g:statusline_banner_is_hidden)
+"   if (exists('g:kissline_banner_is_hidden') && !g:kissline_banner_is_hidden)
 "     exe 'hi User1 guibg='.bg.' guifg=#2C323C gui=bold'
 "     exe 'hi User2 guifg='.bg.' guibg=tomato gui=bold'
 "   else

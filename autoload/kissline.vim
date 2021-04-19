@@ -5,68 +5,68 @@ function! kissline#_layout_active()
   let statusline=""
   let statusline.="%{kissline#_update_color()}"
 
-  if (exists('g:statusline_banner_is_hidden') && !g:statusline_banner_is_hidden)
+  if (exists('g:kissline_banner_is_hidden') && !g:kissline_banner_is_hidden)
     let statusline.="%#StatusLine_banner#"
-    let statusline.=g:statusline.component.banner
+    let statusline.=g:kissline.component.banner
     let statusline.="%=" " (Middle) align from right
   else
     " first level
     let statusline.="%#StatusLine_active_0#"
-    let statusline.=g:statusline.component.mode
-    let statusline.=g:statusline.component.readonly
-    let statusline.=g:statusline.component.spell
-    let statusline.=g:statusline.component.wrap
+    let statusline.=g:kissline.component.mode
+    let statusline.=g:kissline.component.readonly
+    let statusline.=g:kissline.component.spell
+    let statusline.=g:kissline.component.wrap
     let statusline.="%#StatusLine_active_0_alt#"
-    let statusline.=g:statusline.separator.left
+    let statusline.=g:kissline.separator.left
 
     " second level
     let statusline.="%#StatusLine_active_1#"
-    let statusline.=g:statusline.separator.space
-    let statusline.=g:statusline.component.modified
-    let statusline.=g:statusline.separator.space
+    let statusline.=g:kissline.separator.space
+    let statusline.=g:kissline.component.modified
+    let statusline.=g:kissline.separator.space
     let statusline.="%<" " truncate left
-    let statusline.=g:statusline.component.filename
-    let statusline.=g:statusline.separator.space
+    let statusline.=g:kissline.component.filename
+    let statusline.=g:kissline.separator.space
     let statusline.="%#StatusLine_active_1_alt#"
-    let statusline.=g:statusline.separator.left
+    let statusline.=g:kissline.separator.left
 
     " third level
     let statusline.="%#StatusLine_active_middle#"
-    let statusline.=g:statusline.separator.space
-    let statusline.=g:statusline.component.coc_status
-    let statusline.=g:statusline.separator.space
+    let statusline.=g:kissline.separator.space
+    let statusline.=g:kissline.component.coc_status
+    let statusline.=g:kissline.separator.space
 
     let statusline.="%=" " (Middle) align from right
 
     " third level
     let statusline.="%#StatusLine_active_middle#"
-    let statusline.=g:statusline.separator.space
-    let statusline.=g:statusline.component.tasktimer_status
-    let statusline.=g:statusline.separator.space
+    let statusline.=g:kissline.separator.space
+    let statusline.=g:kissline.component.tasktimer_status
+    let statusline.=g:kissline.separator.space
 
-    let statusline.=g:statusline.separator.space
-    let statusline.=g:statusline.component.space_width
-    let statusline.=g:statusline.separator.space
+    let statusline.=g:kissline.separator.space
+    let statusline.=g:kissline.component.space_width
+    let statusline.=g:kissline.separator.space
 
-    let statusline.=g:statusline.separator.space
-    let statusline.=g:statusline.component.filetype
-    let statusline.=g:statusline.separator.space
+    let statusline.=g:kissline.separator.space
+    let statusline.=g:kissline.component.filetype
+    let statusline.=g:kissline.separator.space
 
     " second level
     let statusline.="%#StatusLine_active_1_alt#"
-    let statusline.=g:statusline.separator.right
+    let statusline.=g:kissline.separator.right
     let statusline.="%#StatusLine_active_1#"
-    let statusline.=g:statusline.separator.space
-    let statusline.=g:statusline.component.percent
-    let statusline.=g:statusline.separator.space
+    let statusline.=g:kissline.separator.space
+    let statusline.=g:kissline.component.percent
+    let statusline.=g:kissline.separator.space
 
     " first level
     let statusline.="%#StatusLine_active_0_alt#"
-    let statusline.=g:statusline.separator.right
+    let statusline.=g:kissline.separator.right
     let statusline.="%#StatusLine_active_0#"
-    let statusline.=g:statusline.separator.space
-    let statusline.=g:statusline.component.lineinfo
-    let statusline.=g:statusline.separator.space
+    let statusline.=g:kissline.separator.space
+    let statusline.=g:kissline.component.lineinfo
+    let statusline.=g:kissline.separator.space
 
   endif
   return statusline
@@ -79,25 +79,25 @@ endfunction
 function! kissline#_layout_inactive()
   let statusline=""
   let statusline.="%#StatusLine_inactive_1#"
-  let statusline.=g:statusline.separator.space
-  let statusline.=g:statusline.component.modified
-  let statusline.=g:statusline.separator.space
+  let statusline.=g:kissline.separator.space
+  let statusline.=g:kissline.component.modified
+  let statusline.=g:kissline.separator.space
   let statusline.="%<" " turncate left
-  let statusline.=g:statusline.component.filename
-  let statusline.=g:statusline.separator.space
+  let statusline.=g:kissline.component.filename
+  let statusline.=g:kissline.separator.space
   let statusline.="%#StatusLine_inactive_1_alt#"
-  let statusline.=g:statusline.separator.left
+  let statusline.=g:kissline.separator.left
   let statusline.="%#StatusLineNC#"
 
   let statusline.="%=" " (Middle) align from right
 
   let statusline.="%#StatusLineNC#"
   let statusline.="%#StatusLine_inactive_1_alt#"
-  let statusline.=g:statusline.separator.right
+  let statusline.=g:kissline.separator.right
   let statusline.="%#StatusLine_inactive_1#"
-  let statusline.=g:statusline.separator.space
-  let statusline.=g:statusline.component.lineinfo
-  let statusline.=g:statusline.separator.space
+  let statusline.=g:kissline.separator.space
+  let statusline.=g:kissline.component.lineinfo
+  let statusline.=g:kissline.separator.space
 
   return statusline
 endfunction
@@ -142,11 +142,11 @@ function! kissline#_update_color() abort
 endfunction
 
 function! kissline#_set_colorscheme()
-  let colorscheme = get(g:statusline, 'colorscheme', 'one')
+  let colorscheme = get(g:kissline, 'colorscheme', 'one')
   call function('kissline#colorscheme#'.colorscheme.'#_set_colorscheme')()
 endfunction
 function! kissline#_hide_statusline_colors()
-  let colorscheme = get(g:statusline, 'colorscheme', 'one')
+  let colorscheme = get(g:kissline, 'colorscheme', 'one')
   call function('kissline#colorscheme#'.colorscheme.'#_hide_statusline_colors')()
 endfunction
 
@@ -166,20 +166,20 @@ endfunction
 
 let s:banner_msg_timer_id = 0
 function! kissline#_show_banner(msg, opts) abort
-  if (!g:statusline_banner_is_hidden)
+  if (!g:kissline_banner_is_hidden)
     call timer_stop(s:banner_msg_timer_id)
   endif
 
-  let g:statusline_banner_msg = a:msg
-  let g:statusline_banner_is_hidden = 0
+  let g:kissline_banner_msg = a:msg
+  let g:kissline_banner_is_hidden = 0
   let timer = get(a:opts, 'timer', 5000)
-  let s:banner_msg_timer_id = timer_start(timer, 'statusline#_hide_banner')
+  let s:banner_msg_timer_id = timer_start(timer, 'kissline#_hide_banner')
   call kissline#_update_all()
 endfunction
 " call kissline#_show_banner('testing', {'timer': 3000})
 " call kissline#_show_banner('testing',{})
 function! kissline#_hide_banner(timer_id) abort
-  let g:statusline_banner_is_hidden = 1
+  let g:kissline_banner_is_hidden = 1
   call kissline#_update_all()
 endfunction
 " }}}
