@@ -4,71 +4,9 @@
 function! kissline#_layout_active()
   let statusline=""
   let statusline.="%{kissline#_update_color()}"
-
-  if (exists('g:kissline_banner_is_hidden') && !g:kissline_banner_is_hidden)
-    let statusline.="%#Kissline_banner#"
-    let statusline.=g:kissline.component.banner
-    let statusline.="%=" " (Middle) align from right
-  else
-    " first level
-    let statusline.="%#Kissline_active_0#"
-    let statusline.=g:kissline.component.mode
-    let statusline.=g:kissline.component.readonly
-    let statusline.=g:kissline.component.spell
-    let statusline.=g:kissline.component.wrap
-    let statusline.="%#Kissline_active_0_alt#"
-    let statusline.=g:kissline.separator.left
-
-    " second level
-    let statusline.="%#Kissline_active_1#"
-    let statusline.=g:kissline.separator.space
-    let statusline.=g:kissline.component.modified
-    let statusline.=g:kissline.separator.space
-    let statusline.="%<" " truncate left
-    let statusline.=g:kissline.component.filename
-    let statusline.=g:kissline.separator.space
-    let statusline.="%#Kissline_active_1_alt#"
-    let statusline.=g:kissline.separator.left
-
-    " third level
-    let statusline.="%#Kissline_active_middle#"
-    let statusline.=g:kissline.separator.space
-    let statusline.=g:kissline.component.coc_status
-    let statusline.=g:kissline.separator.space
-
-    let statusline.="%=" " (Middle) align from right
-
-    " third level
-    let statusline.="%#Kissline_active_middle#"
-    let statusline.=g:kissline.separator.space
-    let statusline.=g:kissline.component.tasktimer_status
-    let statusline.=g:kissline.separator.space
-
-    let statusline.=g:kissline.separator.space
-    let statusline.=g:kissline.component.space_width
-    let statusline.=g:kissline.separator.space
-
-    let statusline.=g:kissline.separator.space
-    let statusline.=g:kissline.component.filetype
-    let statusline.=g:kissline.separator.space
-
-    " second level
-    let statusline.="%#Kissline_active_1_alt#"
-    let statusline.=g:kissline.separator.right
-    let statusline.="%#Kissline_active_1#"
-    let statusline.=g:kissline.separator.space
-    let statusline.=g:kissline.component.percent
-    let statusline.=g:kissline.separator.space
-
-    " first level
-    let statusline.="%#Kissline_active_0_alt#"
-    let statusline.=g:kissline.separator.right
-    let statusline.="%#Kissline_active_0#"
-    let statusline.=g:kissline.separator.space
-    let statusline.=g:kissline.component.lineinfo
-    let statusline.=g:kissline.separator.space
-
-  endif
+  let statusline.= kissline#layout#create('active', 'left', 'default')
+  let statusline.="%=" " (Middle) align from right
+  let statusline.= kissline#layout#create('active', 'right', 'default')
   return statusline
 endfunction
 " }}}
@@ -78,27 +16,9 @@ endfunction
 " kissline#_layout_inactive {{{
 function! kissline#_layout_inactive()
   let statusline=""
-  let statusline.="%#Kissline_inactive_1#"
-  let statusline.=g:kissline.separator.space
-  let statusline.=g:kissline.component.modified
-  let statusline.=g:kissline.separator.space
-  let statusline.="%<" " turncate left
-  let statusline.=g:kissline.component.filename
-  let statusline.=g:kissline.separator.space
-  let statusline.="%#Kissline_inactive_1_alt#"
-  let statusline.=g:kissline.separator.left
-  let statusline.="%#StatusLineNC#"
-
+  let statusline.= kissline#layout#create('inactive', 'left', 'default')
   let statusline.="%=" " (Middle) align from right
-
-  let statusline.="%#StatusLineNC#"
-  let statusline.="%#Kissline_inactive_1_alt#"
-  let statusline.=g:kissline.separator.right
-  let statusline.="%#Kissline_inactive_1#"
-  let statusline.=g:kissline.separator.space
-  let statusline.=g:kissline.component.lineinfo
-  let statusline.=g:kissline.separator.space
-
+  let statusline.= kissline#layout#create('inactive', 'right', 'default')
   return statusline
 endfunction
 " }}}
