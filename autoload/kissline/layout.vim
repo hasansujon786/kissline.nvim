@@ -1,18 +1,18 @@
 let g:kissline_theme = {
   \ 'active': {
-  \   'left': [[ 'mode','readonly', 'spell'],
-  \            [ 'modified', 'filename'],
-  \            [ 'coc_status']],
+  \   'left': [['mode','readonly', 'spell', 'wrap'],
+  \            ['filename_with_icon'],
+  \            ['coc_status']],
   \
-  \   'right':[[ 'lineinfo' ],
-  \            [ 'percent',],
-  \            [ 'filetype', 'space_width', 'tasktimer_status']],
+  \   'right':[['lineinfo'],
+  \            ['percent'],
+  \            ['filetype', 'space_width', 'tasktimer_status']],
   \ },
   \ 'inactive': {
-  \   'left': [[ 'modified', 'filename']],
+  \   'left': [['filename_with_icon']],
   \
-  \   'right':[[ 'percent' ]]
-  \ },
+  \   'right':[['percent']]
+  \ }
   \ }
 
 function s:get_colors(layout, side, stage, alt) abort

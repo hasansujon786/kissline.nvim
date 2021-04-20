@@ -98,3 +98,91 @@ endfunction
 
 " }}}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Component functions {{{
+let s:mode_states={
+  \ 'n'  : 'Normal',
+  \ 'no' : 'Normal·Operator Pending',
+  \ 'v'  : 'Visual',
+  \ 'V'  : 'V-Line',
+  \ "\<C-V>" : 'V-Block',
+  \ 's'  : 'Select',
+  \ 'S'  : 'S-Line',
+  \ "\<C-S>" : 'S-Block',
+  \ 'i'  : 'Insert',
+  \ 'R'  : 'Replace',
+  \ 'Rv' : 'V-Replace',
+  \ 'c'  : 'Normal',
+  \ 'cv' : 'Vim Ex',
+  \ 'ce' : 'Ex',
+  \ 'r'  : 'Prompt',
+  \ 'rm' : 'More',
+  \ 'r?' : 'Confirm',
+  \ '!'  : 'Shell',
+  \ 't'  : 'Terminal'
+  \}
+
+function! kissline#CurrentMode()
+  return exists('g:loaded_sneak_plugin') && sneak#is_sneaking() ? 'SNEAK ' :
+        \ &ft == 'fern' ? 'fern' :
+        \ toupper(s:mode_states[mode()])
+endfunction
+
+function! kissline#CocStatus()
+  return exists('*coc#status') ? coc#status() : ''
+endfunction
+
+function! kissline#TaskTimerStatus()
+  if !exists('g:all_plug_loaded')
+    return g:kissline_icons.checking
+  else | try
+    let icon = tt#get_status() =~ 'break' ? g:kissline_icons.cup : g:kissline_icons.pomodoro
+    let status = (!tt#is_running() && !hasan#tt#is_tt_paused() ? 'off' :
+          \ hasan#tt#is_tt_paused() ? 'paused' :
+          \ tt#get_remaining_smart_format())
+    return icon.' '.status
+    catch | return '' | endtry
+  endif
+endfunction
+
+function! kissline#BannerMsg() abort
+  let msg = exists('g:kissline_banner_msg') ? g:kissline_banner_msg : ''
+  let banner_w = (winwidth(0)) / 2
+  let space = banner_w + (len(msg) / 2)
+  let line = printf('%'.space.'S', msg)
+  return exists('g:kissline_banner_is_hidden') && !g:kissline_banner_is_hidden ? line : ''
+endfunction
+
+function! kissline#Mini_scrollbar()
+  " https://www.reddit.com/r/vim/comments/lvktng/tiny_statusline_scrollbar/
+  " Plug 'https://github.com/drzel/vim-line-no-indicator'
+  let width = 9
+  let perc = (line('.') - 1.0) / (max([line('$'), 2]) - 1.0)
+  let before = float2nr(round(perc * (width - 3)))
+  let after = width - 3 - before
+  " return '[' . repeat(' ',  before) . '=' . repeat(' ', after) . ']'
+  return repeat('░',  before) . '▒' . repeat('░', after)
+endfunction
+
+
+function! kissline#Fugitive() abort
+    if exists('g:loaded_fugitive')
+        let l:branch = fugitive#head()
+        return l:branch !=# '' ? ' ' . branch : ''
+    endif
+    return ''
+endfunction
+
+" alternative branch parsing if fugitive.vim not installed
+function! kissline#GitBranch() abort
+    let l:branch = system('cd '.expand('%:p:h').' && git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d "\n"')
+    if !strlen(l:branch) || !isdirectory(expand('%:p:h'))
+        return ''
+    else
+        return ' ' . l:branch . ''
+    endif
+endfunction
+
+" }}}
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
