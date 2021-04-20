@@ -61,13 +61,9 @@ function! kissline#_update_color() abort
   return ''
 endfunction
 
-function! kissline#_set_colorscheme()
+function! kissline#_init()
   let colorscheme = get(g:kissline, 'colorscheme', 'one')
-  call function('kissline#colorscheme#'.colorscheme.'#_set_colorscheme')()
-endfunction
-function! kissline#_hide_statusline_colors()
-  let colorscheme = get(g:kissline, 'colorscheme', 'one')
-  call function('kissline#colorscheme#'.colorscheme.'#_hide_statusline_colors')()
+  call function('kissline#colorscheme#'.colorscheme.'#_init')()
 endfunction
 
 function! kissline#_update_all()
@@ -82,25 +78,6 @@ function! kissline#_blur()
 endfunction
 function! kissline#_focus()
    call setwinvar(0, '&statusline', kissline#_layout_active())
-endfunction
-
-let s:banner_msg_timer_id = 0
-function! kissline#_show_banner(msg, opts) abort
-  if (!g:kissline_banner_is_hidden)
-    call timer_stop(s:banner_msg_timer_id)
-  endif
-
-  let g:kissline_banner_msg = a:msg
-  let g:kissline_banner_is_hidden = 0
-  let timer = get(a:opts, 'timer', 5000)
-  let s:banner_msg_timer_id = timer_start(timer, 'kissline#_hide_banner')
-  call kissline#_update_all()
-endfunction
-" call kissline#_show_banner('testing', {'timer': 3000})
-" call kissline#_show_banner('testing',{})
-function! kissline#_hide_banner(timer_id) abort
-  let g:kissline_banner_is_hidden = 1
-  call kissline#_update_all()
 endfunction
 
 function kissline#_get_icon()

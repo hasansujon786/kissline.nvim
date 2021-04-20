@@ -1,4 +1,4 @@
-function! kissline#colorscheme#one#_set_colorscheme() abort
+function! kissline#colorscheme#one#_init() abort
   " hi Kissline_active_0
   " hi Kissline_active_0_alt
   hi Kissline_active_1      guibg=#3E4452 guifg=#ABB2BF
@@ -32,22 +32,4 @@ function! kissline#colorscheme#one#_set_colorscheme() abort
   endfor
 
 endfunction
-
-function! kissline#colorscheme#one#_hide_statusline_colors() abort
-  if( &background == 'dark' )
-    hi User1 guibg=#282C34 guifg=#282C34
-    hi User2 guibg=#282C34 guifg=#282C34
-    " Secondary section color
-    hi User3 guibg=#282C34 guifg=#282C34
-    hi User4 guibg=#282C34 guifg=#282C34
-    " Statusline middle
-    hi User5 guibg=#282C34 guifg=#282C34
-    " Secondary section color (inactive)
-    hi User6 guibg=#282C34 guifg=#282C34
-    " Default color
-    hi statusline   guibg=#282C34 guifg=#282C34
-    hi StatusLineNC guibg=#282C34 guifg=#282C34
-  endif
-endfunction
-
 
