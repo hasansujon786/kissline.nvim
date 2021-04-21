@@ -1,4 +1,5 @@
-" default configs
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" default configs {{{
 let s:kissline_icon_renderer = get(g:, 'kissline_icon_renderer', 'none')
 let s:kissline_colorscheme   = get(g:, 'kissline_colorscheme', 'one')
 let s:kissline_separator     = get(g:, 'kissline_separator', {'left': '', 'right': '', 'space': ' '})
@@ -41,38 +42,37 @@ if exists('g:kissline_component_functions') && type(g:kissline_component_functio
     let s:kissline_components[item[0]] = printf(' %%{%s()} ', item[1])
   endfor
 endif
+let s:mode_names={
+      \ 'n'  : 'Normal',
+      \ 'no' : 'Normal·Operator Pending',
+      \ 'v'  : 'Visual',
+      \ 'V'  : 'V-Line',
+      \ "\<C-V>" : 'V-Block',
+      \ 's'  : 'Select',
+      \ 'S'  : 'S-Line',
+      \ "\<C-S>" : 'S-Block',
+      \ 'i'  : 'Insert',
+      \ 'R'  : 'Replace',
+      \ 'Rv' : 'V-Replace',
+      \ 'c'  : 'Normal',
+      \ 'cv' : 'Vim Ex',
+      \ 'ce' : 'Ex',
+      \ 'r'  : 'Prompt',
+      \ 'rm' : 'More',
+      \ 'r?' : 'Confirm',
+      \ '!'  : 'Shell',
+      \ 't'  : 'Terminal'
+      \}
 
-function kissline#_get_config(config) abort
-  return get(s:, a:config, 0)
-endfunction
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" kissline#_layout_active {{{
-function! kissline#_layout_active()
-  let statusline=""
-  let statusline.="%{kissline#_update_color()}"
-  let statusline.= kissline#layout#create('active', 'left', 'default')
-  let statusline.="%=" " (Middle) align from right
-  let statusline.= kissline#layout#create('active', 'right', 'default')
-  return statusline
-endfunction
-" }}}
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" kissline#_layout_inactive {{{
-function! kissline#_layout_inactive()
-  let statusline=""
-  let statusline.= kissline#layout#create('inactive', 'left', 'default')
-  let statusline.="%=" " (Middle) align from right
-  let statusline.= kissline#layout#create('inactive', 'right', 'default')
-  return statusline
-endfunction
 " }}}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Controls {{{
+function kissline#_get_config(config) abort
+  return get(s:, a:config, 0)
+endfunction
+
 let s:mode_color_names={
   \ 'n'  : 'normal',
   \ 't'  : 'terminal',
@@ -82,20 +82,8 @@ let s:mode_color_names={
   \ 'i'  : 'insert',
   \ 'R'  : 'replace',
   \ 'c'  : 'normal',
-  \
-  \ 's'  : 'select',
-  \ 'S'  : 'sline',
-  \ "\<C-S>" : 'sblock',
-  \ 'Rv' : 'vreplace',
-  \ 'cv' : 'vimex',
-  \ 'ce' : 'ex',
-  \ 'r'  : 'prompt',
-  \ 'rm' : 'more',
-  \ 'r?' : 'confirm',
-  \ '!'  : 'shell',
-  \ 'no' : 'normal·operator pending',
+  \ 's'  : 'replace',
   \}
-
 let s:mode = ''
 function! kissline#_update_color() abort
   let mode = get(s:mode_color_names, mode(), 'normal')
@@ -115,16 +103,16 @@ endfunction
 
 function! kissline#_update_all()
   let w = winnr()
-  let s = winnr('$') == 1 && w > 0 ? [kissline#_layout_active()] : [kissline#_layout_active(), kissline#_layout_inactive()]
+  let s = winnr('$') == 1 && w > 0 ? [kissline#layout#active()] : [kissline#layout#active(), kissline#layout#inactive()]
   for n in range(1, winnr('$'))
     call setwinvar(n, '&statusline', s[n!=w])
   endfor
 endfunction
 function! kissline#_blur()
-   call setwinvar(0, '&statusline', kissline#_layout_inactive())
+   call setwinvar(0, '&statusline', kissline#layout#inactive())
 endfunction
 function! kissline#_focus()
-   call setwinvar(0, '&statusline', kissline#_layout_active())
+   call setwinvar(0, '&statusline', kissline#layout#active())
 endfunction
 
 function kissline#_get_icon()
@@ -149,32 +137,10 @@ endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Component functions {{{
-let s:mode_states={
-  \ 'n'  : 'Normal',
-  \ 'no' : 'Normal·Operator Pending',
-  \ 'v'  : 'Visual',
-  \ 'V'  : 'V-Line',
-  \ "\<C-V>" : 'V-Block',
-  \ 's'  : 'Select',
-  \ 'S'  : 'S-Line',
-  \ "\<C-S>" : 'S-Block',
-  \ 'i'  : 'Insert',
-  \ 'R'  : 'Replace',
-  \ 'Rv' : 'V-Replace',
-  \ 'c'  : 'Normal',
-  \ 'cv' : 'Vim Ex',
-  \ 'ce' : 'Ex',
-  \ 'r'  : 'Prompt',
-  \ 'rm' : 'More',
-  \ 'r?' : 'Confirm',
-  \ '!'  : 'Shell',
-  \ 't'  : 'Terminal'
-  \}
-
 function! kissline#CurrentMode()
-  return exists('g:loaded_sneak_plugin') && sneak#is_sneaking() ? 'SNEAK ' :
-        \ &ft == 'fern' ? 'fern' :
-        \ toupper(s:mode_states[mode()])
+  " exists('g:loaded_sneak_plugin') && sneak#is_sneaking() ? 'SNEAK ' :
+  return &ft == 'fern' ? 'fern' :
+        \ toupper(s:mode_names[mode()])
 endfunction
 
 function! kissline#CocStatus()

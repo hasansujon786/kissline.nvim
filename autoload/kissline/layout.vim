@@ -1,13 +1,31 @@
 let s:separator = kissline#_get_config('kissline_separator')
 let s:layout    = kissline#_get_config('kissline_layout')
 
+function! kissline#layout#active()
+  let statusline=""
+  let statusline.="%{kissline#_update_color()}"
+  let statusline.= s:create_layout('active', 'left', 'default')
+  let statusline.="%=" " (Middle) align from right
+  let statusline.= s:create_layout('active', 'right', 'default')
+  return statusline
+endfunction
+
+function! kissline#layout#inactive()
+  let statusline=""
+  let statusline.= s:create_layout('inactive', 'left', 'default')
+  let statusline.="%=" " (Middle) align from right
+  let statusline.= s:create_layout('inactive', 'right', 'default')
+  return statusline
+endfunction
+
+
 function s:get_colors(state, side, stage, alt) abort
  let separator = a:alt ? s:separator[a:side] : ''
  let alt_color = a:alt ? '_alt' : ''
  return printf('%%#Kissline_%s_%s%s#%s', a:state, a:stage, alt_color, separator)
 endfunction
 
-function! kissline#layout#create(state, side, theme) abort
+function! s:create_layout(state, side, theme) abort
   let components = kissline#_get_config('kissline_components')
   let row_config = s:layout[a:state][a:side]
   let fn_names_in_flatten_array = []
