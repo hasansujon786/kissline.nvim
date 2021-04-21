@@ -2,10 +2,24 @@ function kissline#_get_config(config) abort
   return get(s:, a:config, 0)
 endfunction
 
-let s:kissline_icon_renderer = get(g:,'kissline_icon_renderer', 'none')
-let s:kissline_colorscheme   = get(g:,'kissline_colorscheme', 'one')
+let s:kissline_icon_renderer = get(g:, 'kissline_icon_renderer', 'none')
+let s:kissline_colorscheme   = get(g:, 'kissline_colorscheme', 'one')
 let s:kissline_separator     = get(g:, 'kissline_separator', {'left': '', 'right': '', 'space': ' '})
 let s:kissline_subseparator  = get(g:, 'kissline_subseparator', {'left': '', 'right': ''})
+let s:kissline_layout        = get(g:, 'kissline_layout', {
+      \ 'active': {
+      \   'left': [['mode','readonly', 'spell', 'wrap'],
+      \            ['filename_with_icon'],
+      \            ['coc_status']],
+      \   'right':[['lineinfo'],
+      \            ['percent'],
+      \            ['filetype', 'space_width', 'tasktimer_status']],
+      \ },
+      \ 'inactive': {
+      \   'left': [['filename_with_icon']],
+      \   'right':[['percent']]
+      \ }
+      \ })
 let s:kissline_components = {
       \ 'mode': "\ %{kissline#CurrentMode()}\ ",
       \ 'readonly': "%{&readonly?'\ ".g:kissline_icons.lock." ':''}",
