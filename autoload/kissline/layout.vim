@@ -1,3 +1,4 @@
+let s:separator = kissline#_get_config('kissline_separator')
 let g:kissline_theme = {
   \ 'active': {
   \   'left': [['mode','readonly', 'spell', 'wrap'],
@@ -16,12 +17,13 @@ let g:kissline_theme = {
   \ }
 
 function s:get_colors(layout, side, stage, alt) abort
- let separator = a:alt ? g:kissline.separator[a:side] : ''
+ let separator = a:alt ? s:separator[a:side] : ''
  let alt_color = a:alt ? '_alt' : ''
  return printf('%%#Kissline_%s_%s%s#%s', a:layout, a:stage, alt_color, separator)
 endfunction
 
 function! kissline#layout#create(layout, side, theme) abort
+  let components = kissline#_get_config('kissline_components')
   let row_config = g:kissline_theme[a:layout][a:side]
   let fn_names_in_flatten_array = []
 
@@ -32,7 +34,7 @@ function! kissline#layout#create(layout, side, theme) abort
     endif
 
     for fn_name in stage
-      call add(fn_names_in_flatten_array, g:kissline.component[fn_name])
+      call add(fn_names_in_flatten_array, components[fn_name])
     endfor
 
     if a:side == 'left'

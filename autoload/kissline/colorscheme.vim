@@ -1,4 +1,5 @@
 
+" these are not in use
 function! kissline#_hide_statusline_colors()
   let colorscheme = get(g:kissline, 'colorscheme', 'one')
   call function('kissline#colorscheme#'.colorscheme.'#_hide_statusline_colors')()

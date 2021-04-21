@@ -1,3 +1,32 @@
+function kissline#_get_config(config) abort
+  return get(s:, a:config, 0)
+endfunction
+
+let s:kissline_icon_renderer = get(g:,'kissline_icon_renderer', 'none')
+let s:kissline_colorscheme   = get(g:,'kissline_colorscheme', 'one')
+let s:kissline_separator     = get(g:, 'kissline_separator', {'left': '', 'right': '', 'space': ' '})
+let s:kissline_subseparator  = get(g:, 'kissline_subseparator', {'left': '', 'right': ''})
+let s:kissline_components = {
+      \ 'mode': "\ %{kissline#CurrentMode()}\ ",
+      \ 'readonly': "%{&readonly?'\ ".g:kissline_icons.lock." ':''}",
+      \ 'spell': "%{&spell?'\ ".g:kissline_icons.dic." ':''}",
+      \ 'wrap': "%{&wrap?'\ ".g:kissline_icons.wrap." ':''}",
+      \ 'modified': " %{&modified?'*':'-'} ",
+      \ '_modified': " %{&modified? g:kissline_icons.big_dot : kissline#_get_icon()} ",
+      \ 'space_width': " %{&expandtab?'Spc:'.&shiftwidth:'Tab:'.&shiftwidth} ",
+      \ 'filetype': " %{''!=#&filetype?&filetype:'none'} ",
+      \ 'filename_with_icon': " %{&modified? g:kissline_icons.big_dot : kissline#_get_icon()} %t ",
+      \ 'filename': " %t ",
+      \ 'percent': " %3p%% ",
+      \ 'lineinfo': " %3l:%-2v ",
+      \ 'coc_status': " %{kissline#CocStatus()} ",
+      \ 'tasktimer_status': " %{kissline#TaskTimerStatus()} ",
+      \ 'banner': " %{kissline#BannerMsg()} ",
+      \ 'mini_scrollbar': " %{kissline#Mini_scrollbar()} ",
+      \ 'fugitive': " %{kissline#Fugitive()} ",
+      \ }
+
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " kissline#_layout_active {{{
@@ -62,7 +91,7 @@ function! kissline#_update_color() abort
 endfunction
 
 function! kissline#_init()
-  let colorscheme = get(g:kissline, 'colorscheme', 'one')
+  let colorscheme = kissline#_get_config('kissline_colorscheme')
   call function('kissline#colorscheme#'.colorscheme.'#_init')()
 endfunction
 
@@ -81,12 +110,13 @@ function! kissline#_focus()
 endfunction
 
 function kissline#_get_icon()
+  let renderer = kissline#_get_config('kissline_icon_renderer')
   try
-    if g:kissline_icon_renderer == 'nvim-web-devicons'
+    if renderer == 'nvim-web-devicons'
       return kissline#icon#nvim_web_devicons()
-    elseif g:kissline_icon_renderer == 'vim-devicons'
+    elseif renderer == 'vim-devicons'
       return WebDevIconsGetFileTypeSymbol()
-    elseif g:kissline_icon_renderer == 'nerdfont.vim'
+    elseif renderer == 'nerdfont.vim'
       return nerdfont#find()
     else
       return '-'

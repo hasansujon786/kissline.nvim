@@ -1,4 +1,6 @@
 
+let g:kissline_banner_msg = ''
+let g:kissline_banner_is_hidden = 1
 let s:banner_msg_timer_id = 0
 function! kissline#_show_banner(msg, opts) abort
   if (!g:kissline_banner_is_hidden)
