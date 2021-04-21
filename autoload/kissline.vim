@@ -1,7 +1,4 @@
-function kissline#_get_config(config) abort
-  return get(s:, a:config, 0)
-endfunction
-
+" default configs
 let s:kissline_icon_renderer = get(g:, 'kissline_icon_renderer', 'none')
 let s:kissline_colorscheme   = get(g:, 'kissline_colorscheme', 'one')
 let s:kissline_separator     = get(g:, 'kissline_separator', {'left': '', 'right': '', 'space': ' '})
@@ -39,8 +36,15 @@ let s:kissline_components = {
       \ 'mini_scrollbar': " %{kissline#Mini_scrollbar()} ",
       \ 'fugitive': " %{kissline#Fugitive()} ",
       \ }
+if exists('g:kissline_component_functions') && type(g:kissline_component_functions) == v:t_dict
+  for item in items(g:kissline_component_functions)
+    let s:kissline_components[item[0]] = printf(' %%{%s()} ', item[1])
+  endfor
+endif
 
-
+function kissline#_get_config(config) abort
+  return get(s:, a:config, 0)
+endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " kissline#_layout_active {{{
