@@ -7,23 +7,6 @@ if exists('g:loaded_kissline') || &cp
 endif
 let g:loaded_kissline = 1
 
-let g:kissline_icons = {
-  \ 'lock':     '',
-  \ 'checking': '',
-  \ 'warning':  '',
-  \ 'error':    '',
-  \ 'ok':       '',
-  \ 'info':     '',
-  \ 'hint':     '',
-  \ 'line':     '',
-  \ 'dic':      ' ',
-  \ 'wrap':     '蝹',
-  \ 'cup':      '',
-  \ 'search':   '',
-  \ 'pomodoro': '',
-  \ 'big_dot':  '●',
-  \}
-
 
 set statusline=%!kissline#_layout_active()
 augroup StausLine

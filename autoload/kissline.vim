@@ -18,16 +18,22 @@ let s:kissline_layout        = get(g:, 'kissline_layout', {
       \   'right':[['percent']]
       \ }
       \ })
+let s:kissline_icons = {
+      \ 'lock': '', 'checking': '', 'warning': '', 'error':    '',
+      \ 'ok':   '', 'info':     '', 'hint':    '', 'line':     '',
+      \ 'dic':  '', 'wrap':     '蝹', 'cup':    '', 'search':   '',
+      \ 'dot':  '●', 'pomodoro':  '',
+      \}
 let s:kissline_components = {
       \ 'mode': "\ %{kissline#CurrentMode()}\ ",
-      \ 'readonly': "%{&readonly?'\ ".g:kissline_icons.lock." ':''}",
-      \ 'spell': "%{&spell?'\ ".g:kissline_icons.dic." ':''}",
-      \ 'wrap': "%{&wrap?'\ ".g:kissline_icons.wrap." ':''}",
+      \ 'readonly': "%{&readonly?'\ ".s:kissline_icons.lock." ':''}",
+      \ 'spell': "%{&spell?'\ ".s:kissline_icons.dic." ':''}",
+      \ 'wrap': "%{&wrap?'\ ".s:kissline_icons.wrap." ':''}",
       \ 'modified': " %{&modified?'*':'-'} ",
-      \ '_modified': " %{&modified? g:kissline_icons.big_dot : kissline#_get_icon()} ",
+      \ '_modified': " %{&modified? '".s:kissline_icons.big_dot."' : kissline#_get_icon()} ",
       \ 'space_width': " %{&expandtab?'Spc:'.&shiftwidth:'Tab:'.&shiftwidth} ",
       \ 'filetype': " %{''!=#&filetype?&filetype:'none'} ",
-      \ 'filename_with_icon': " %{&modified? g:kissline_icons.big_dot : kissline#_get_icon()} %t ",
+      \ 'filename_with_icon': " %{&modified? '".s:kissline_icons.big_dot."' : kissline#_get_icon()} %t ",
       \ 'filename': " %t ",
       \ 'percent': " %3p%% ",
       \ 'lineinfo': " %3l:%-2v ",
@@ -149,9 +155,9 @@ endfunction
 
 function! kissline#TaskTimerStatus()
   if !exists('g:all_plug_loaded')
-    return g:kissline_icons.checking
+    return s:kissline_icons.checking
   else | try
-    let icon = tt#get_status() =~ 'break' ? g:kissline_icons.cup : g:kissline_icons.pomodoro
+    let icon = tt#get_status() =~ 'break' ? s:kissline_icons.cup : s:kissline_icons.pomodoro
     let status = (!tt#is_running() && !hasan#tt#is_tt_paused() ? 'off' :
           \ hasan#tt#is_tt_paused() ? 'paused' :
           \ tt#get_remaining_smart_format())
