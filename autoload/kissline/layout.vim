@@ -6,6 +6,7 @@ function! kissline#layout#active()
   let statusline.="%{kissline#_update_color()}"
   let statusline.= s:create_layout('active', 'left', 'default')
   let statusline.="%=" " (Middle) align from right
+  let statusline.="%<" " truncate left
   let statusline.= s:create_layout('active', 'right', 'default')
   return statusline
 endfunction
@@ -14,6 +15,7 @@ function! kissline#layout#inactive()
   let statusline=""
   let statusline.= s:create_layout('inactive', 'left', 'default')
   let statusline.="%=" " (Middle) align from right
+  let statusline.="%<" " truncate left
   let statusline.= s:create_layout('inactive', 'right', 'default')
   return statusline
 endfunction
