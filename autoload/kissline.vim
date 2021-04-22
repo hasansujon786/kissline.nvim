@@ -39,7 +39,7 @@ let s:kissline_components = {
       \ 'lineinfo': " %3l:%-2v ",
       \ 'coc_status': " %{kissline#CocStatus()} ",
       \ 'tasktimer_status': " %{kissline#TaskTimerStatus()} ",
-      \ 'banner': " %{kissline#BannerMsg()} ",
+      \ 'banner': " %{kissline#banner#Message()} ",
       \ 'mini_scrollbar': " %{kissline#Mini_scrollbar()} ",
       \ 'fugitive': " %{kissline#Fugitive()} ",
       \ }
@@ -164,14 +164,6 @@ function! kissline#TaskTimerStatus()
     return icon.' '.status
     catch | return '' | endtry
   endif
-endfunction
-
-function! kissline#BannerMsg() abort
-  let msg = exists('g:kissline_banner_msg') ? g:kissline_banner_msg : ''
-  let banner_w = (winwidth(0)) / 2
-  let space = banner_w + (len(msg) / 2)
-  let line = printf('%'.space.'S', msg)
-  return exists('g:kissline_banner_is_hidden') && !g:kissline_banner_is_hidden ? line : ''
 endfunction
 
 function! kissline#Mini_scrollbar()

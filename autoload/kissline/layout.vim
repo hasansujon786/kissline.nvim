@@ -1,9 +1,16 @@
-let s:separator = kissline#_get_config('kissline_separator')
-let s:layout    = kissline#_get_config('kissline_layout')
+let s:layout     = kissline#_get_config('kissline_layout')
+let s:separator  = kissline#_get_config('kissline_separator')
+let s:components = kissline#_get_config('kissline_components')
 
 function! kissline#layout#active()
-  let statusline=""
-  let statusline.="%{kissline#_update_color()}"
+  let statusline="%{kissline#_update_color()}"
+
+  if kissline#banner#_is_active()
+    let statusline.="%#Kissline_banner#"
+    let statusline.=s:components.banner
+    return statusline
+  endif
+
   let statusline.= s:create_layout('active', 'left', 'default')
   let statusline.="%=" " (Middle) align from right
   let statusline.="%<" " truncate left
