@@ -8,7 +8,7 @@ endif
 let g:loaded_kissline = 1
 
 
-set statusline=%!kissline#_layout_active()
+set statusline=%!kissline#layout#active()
 augroup StausLine
   au!
   au FocusGained,WinEnter,BufEnter,BufDelete,BufWinLeave,SessionLoadPost,FileChangedShellPost
