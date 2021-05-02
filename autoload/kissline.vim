@@ -11,7 +11,7 @@ let s:kissline_layout        = get(g:, 'kissline_layout', {
       \            ['coc_status']],
       \   'right':[['lineinfo'],
       \            ['percent'],
-      \            ['filetype', 'space_width', 'tasktimer_status']],
+      \            ['fugitive','tasktimer_status', 'space_width', 'filetype']],
       \ },
       \ 'inactive': {
       \   'left': [['filename_with_icon']],
@@ -179,21 +179,21 @@ endfunction
 
 
 function! kissline#Fugitive() abort
-    if exists('g:loaded_fugitive')
-        let l:branch = fugitive#head()
-        return l:branch !=# '' ? ' ' . branch : ''
-    endif
-    return ''
+  if exists('g:loaded_fugitive')
+    let l:branch = fugitive#head()
+    return l:branch !=# '' ? ' ' . branch : ''
+  endif
+  return ''
 endfunction
 
 " alternative branch parsing if fugitive.vim not installed
 function! kissline#GitBranch() abort
-    let l:branch = system('cd '.expand('%:p:h').' && git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d "\n"')
-    if !strlen(l:branch) || !isdirectory(expand('%:p:h'))
-        return ''
-    else
-        return ' ' . l:branch . ''
-    endif
+  let l:branch = system('cd '.expand('%:p:h').' && git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d "\n"')
+  if !strlen(l:branch) || !isdirectory(expand('%:p:h'))
+    return ''
+  else
+    return ' ' . l:branch . ''
+  endif
 endfunction
 
 " }}}

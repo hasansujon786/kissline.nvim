@@ -36,7 +36,7 @@ endfunction
 
 function! s:create_layout(state, side, theme) abort
   let components = kissline#_get_config('kissline_components')
-  let row_config = s:layout[a:state][a:side]
+  let row_config = a:side == 'right' ? map(s:layout[a:state][a:side], 'reverse(v:val)') : s:layout[a:state][a:side]
   let fn_names_in_flatten_array = []
 
   let i = 0
