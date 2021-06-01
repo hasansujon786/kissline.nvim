@@ -11,7 +11,7 @@ let s:kissline_layout        = get(g:, 'kissline_layout', {
       \            ['coc_status']],
       \   'right':[['lineinfo'],
       \            ['percent'],
-      \            ['fugitive','tasktimer_status', 'space_width', 'filetype']],
+      \            ['harpoon','fugitive','tasktimer_status', 'space_width', 'filetype']],
       \ },
       \ 'inactive': {
       \   'left': [['filename_with_icon']],
@@ -42,6 +42,7 @@ let s:kissline_components = {
       \ 'banner': " %{kissline#banner#Message()} ",
       \ 'mini_scrollbar': " %{kissline#Mini_scrollbar()} ",
       \ 'fugitive': " %{kissline#Fugitive()} ",
+      \ 'harpoon': " %{kissline#Harpoon()} ",
       \ }
 if exists('g:kissline_component_functions') && type(g:kissline_component_functions) == v:t_dict
   for item in items(g:kissline_component_functions)
@@ -194,6 +195,15 @@ function! kissline#GitBranch() abort
   else
     return ' ' . l:branch . ''
   endif
+endfunction
+
+function! kissline#Harpoon() abort
+  try
+    let status = luaeval('require("harpoon.mark").status()')
+    return status == '' ? '' : printf('H:%s', status)
+  catch
+    return ''
+  endtry
 endfunction
 
 " }}}
