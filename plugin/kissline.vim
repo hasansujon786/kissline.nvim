@@ -13,6 +13,7 @@ augroup StausLine
   au!
   au FocusGained,WinEnter,BufEnter,BufDelete,BufWinLeave,SessionLoadPost,FileChangedShellPost
         \ * call kissline#_update_all()
+  au User NotifierNotificationLoaded,NeogitStatusRefreshed call kissline#_update_all()
   au FocusLost * call kissline#_blur()
   au VimEnter,ColorScheme * call kissline#_init()
   " au User GoyoLeave nested call kissline#_init()
