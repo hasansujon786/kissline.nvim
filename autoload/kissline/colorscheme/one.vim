@@ -1,6 +1,6 @@
 function! kissline#colorscheme#one#_init() abort
-  " hi Kissline_active_0
-  " hi Kissline_active_0_alt
+  hi Kissline_active_0      guibg=#98C379 guifg=#2C323C gui=bold
+  hi Kissline_active_0_alt  guibg=#3E4452 guifg=#98C379
   hi Kissline_active_1      guibg=#3E4452 guifg=#ABB2BF
   hi Kissline_active_1_alt  guibg=#2C323C guifg=#3E4452
   hi Kissline_active_2      guibg=#2C323C guifg=#717785
