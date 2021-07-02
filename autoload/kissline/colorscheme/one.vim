@@ -8,11 +8,14 @@ function! kissline#colorscheme#one#_init() abort
 
   " Secondary section color (inactive)
   hi Kissline_inactive_0      guibg=#3E4452 guifg=#717785
-  hi Kissline_inactive_0_alt  guibg=#2C323C guifg=#3E4452
+  " hi Kissline_inactive_0_alt  guibg=#2C323C guifg=#3E4452    " default
+  hi Kissline_inactive_0_alt  guibg=#3E4452 guifg=#3E4452    " preferd with nebulous
 
   " Banner section color
   hi Kissline_banner guibg=#FF2020 guifg=#ffffff gui=bold
   " Default color
+  hi Statusline   guibg=#3E4452 guifg=#ABB2BF
+  hi StatusLineNC guibg=#3E4452 guifg=#ABB2BF
   " hi Statusline   guibg=#2C323C guifg=#ABB2BF
   " hi StatusLineNC guibg=#2C323C guifg=#717785
 
