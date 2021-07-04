@@ -155,7 +155,7 @@ function! kissline#CocStatus()
 endfunction
 
 function! kissline#TaskTimerStatus()
-  if !exists('g:all_plug_loaded')
+  if !exists('g:tt_loaded')
     return s:kissline_icons.checking
   else | try
     let icon = tt#get_status() =~ 'break' ? s:kissline_icons.cup : s:kissline_icons.pomodoro
