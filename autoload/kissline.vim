@@ -11,7 +11,7 @@ let s:kissline_layout        = get(g:, 'kissline_layout', {
       \            ['coc_status']],
       \   'right':[['lineinfo'],
       \            ['percent'],
-      \            ['harpoon','fugitive','tasktimer_status', 'space_width', 'filetype']],
+      \            ['lsp_client','harpoon','fugitive','tasktimer_status', 'space_width', 'filetype']],
       \ },
       \ 'inactive': {
       \   'left': [['filename_with_icon']],
@@ -43,6 +43,7 @@ let s:kissline_components = {
       \ 'mini_scrollbar': " %{kissline#Mini_scrollbar()} ",
       \ 'fugitive': " %{kissline#Fugitive()} ",
       \ 'harpoon': " %{kissline#Harpoon()} ",
+      \ 'lsp_client': " %{kissline#GetLspClient()} ",
       \ }
 if exists('g:kissline_component_functions') && type(g:kissline_component_functions) == v:t_dict
   for item in items(g:kissline_component_functions)
@@ -201,6 +202,14 @@ function! kissline#Harpoon() abort
   try
     let status = luaeval('require("harpoon.mark").status()')
     return status == '' ? '' : printf('H:%s', status)
+  catch
+    return ''
+  endtry
+endfunction
+
+function! kissline#GetLspClient() abort
+  try
+    return luaeval('require("kissline").get_lsp_client()')
   catch
     return ''
   endtry
