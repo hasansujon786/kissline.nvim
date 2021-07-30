@@ -1,23 +1,45 @@
+local hi_secondary = { bg='#3E4452', fg='#ABB2BF'}
+
 return  {
   mode = {
-    hl = 'guibg=#ffffff guifg=#ff0000',
-    separator = {'<', '>'},
+    hl = true,
+    separator = {'', ''},
     fn = function ()
       return vim.fn['kissline#CurrentMode']()
     end,
   },
   harpoon = {
-    hl = 'guibg=#ffffff guifg=#ff0000',
-    separator = {'<', '>'},
     fn = function ()
       local status = require("harpoon.mark").status()
       return status == '' and '' or 'H:' .. status
     end
   },
+  line_info = {
+    hl = true,
+    separator = {'', ''},
+    fn = '%3l:%-2v'
+  },
+  filename_with_icon = {
+    hl = hi_secondary,
+    separator = {'', ''},
+    fn = '%t'
+  },
+  scroll_info = {
+    hl = hi_secondary,
+    separator = {'', ''},
+    fn = '%3p%%'
+  },
+  filetype = {
+    fn = function ()
+      local ft=vim.api.nvim_buf_get_option(0, 'filetype')
+      return  ft == '' and 'none' or ft
+    end
+  },
+  space_width = {
+    fn = " %{&expandtab?'Spc:'.&shiftwidth:'Tab:'.&shiftwidth} "
+  },
 
   get_lsp_client = {
-    hl = 'guibg=#ff0000 guifg=#ffffff',
-    separator = {'<', '>'},
     fn = function(msg)
       msg = msg or "LSP Inactive"
       local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")

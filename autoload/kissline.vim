@@ -104,6 +104,17 @@ function! kissline#_update_color() abort
   return ''
 endfunction
 
+function! kissline#_update_color_lua() abort
+  let mode = get(s:mode_color_names, mode(), 'normal')
+  if s:mode == mode
+    return ''
+  endif
+  let s:mode = mode
+  exec printf('hi! link Kissline_mode    Kissline_mode_%s', mode)
+  exec printf('hi! link Kissline_mode_sp Kissline_mode_sp_%s', mode)
+  return ''
+endfunction
+
 function! kissline#_init()
   let colorscheme = kissline#_get_config('kissline_colorscheme')
   call function('kissline#colorscheme#'.colorscheme.'#_init')()
@@ -209,7 +220,7 @@ endfunction
 
 function! kissline#GetLspClient() abort
   try
-    return luaeval('require("kissline").get_lsp_client()')
+    return luaeval('require("kissline.components").get_lsp_client.fn()')
   catch
     return ''
   endtry
