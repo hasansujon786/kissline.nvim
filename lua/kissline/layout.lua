@@ -27,8 +27,8 @@ local function generate_section(component_name, side, next_cp)
   local line = ''
 
   generate_highlights(component_name, highlight, next_cp)
-  local sp_hi_name = use_mode_hl and '%#Kissline_mode_sp#' or  '%#'..'Kissline_sp_'.. component_name ..'#'
-  local cp_hi_name = use_mode_hl and '%#Kissline_mode#' or '%#'..'Kissline_'.. component_name ..'#'
+  local sp_hi_name = use_mode_hl and '%#Kissline_active_0_alt#' or  '%#'..'Kissline_sp_'.. component_name ..'#'
+  local cp_hi_name = use_mode_hl and '%#Kissline_active_0#' or '%#'..'Kissline_'.. component_name ..'#'
   local cp_generated = generate_component(component_name, component)
 
   -- separtor left
@@ -48,16 +48,18 @@ local function generate_section(component_name, side, next_cp)
   return line
 end
 
--- P(generate_section('get_lsp_client'))
 local layout_active = {
   {'mode', 'filename_with_icon'},
   {'harpoon', 'get_lsp_client', 'space_width', 'filetype', 'scroll_info', 'line_info'}
 }
+local layout_inactive = {
+  {'filename_with_icon'},
+  {'scroll_info'}
+}
 
 
 local function active ()
-  -- return components.get_lsp_client()
-  local sline = '%{kissline#_update_color_lua()}'
+  local sline = '%{kissline#_update_color()}'
   for idx, cn in ipairs(layout_active[1]) do
     sline = sline ..generate_section(cn, 'left', layout_active[1][idx + 1])
   end
@@ -70,10 +72,24 @@ local function active ()
   return sline
 end
 
+local function inactive ()
+  local sline = ''
+  for idx, cn in ipairs(layout_inactive[1]) do
+    sline = sline ..generate_section(cn, 'left', layout_inactive[1][idx + 1])
+  end
+  local sline = sline .."%=" -- (Middle) align from right
+  local sline = sline .."%<" -- truncate left
+
+  for idx, cn in ipairs(layout_inactive[2]) do
+    sline = sline ..generate_section(cn, 'right', layout_inactive[2][idx - 1])
+  end
+  return sline
+end
 
 
 
 
 return {
- active = active
+  active = active,
+  inactive = inactive
 }

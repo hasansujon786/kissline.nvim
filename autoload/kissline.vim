@@ -122,7 +122,7 @@ endfunction
 
 function! kissline#_update_all()
   let w = winnr()
-  let s = winnr('$') == 1 && w > 0 ? [kissline#layout#active()] : [kissline#layout#active(), kissline#layout#inactive()]
+  let s = winnr('$') == 1 && w > 0 ? [luaeval("require('kissline.layout').active()")] : [luaeval("require('kissline.layout').active()"), luaeval("require('kissline.layout').inactive()")]
   for n in range(1, winnr('$'))
     call setwinvar(n, '&statusline', s[n!=w])
   endfor
