@@ -1,61 +1,50 @@
 local components = require('kissline.components')
 local utils = require('kissline.utils')
 local default_hl = {bg = '#2C323C', fg = '#717785'}
-local M = {}
 
-local function generate_section(component_name, side, next_cn)
+local function generate_highlights(component_name, highlight, next_cp)
+  -- component hi
+  vim.cmd(string.format('hi Kissline_%s guibg=%s guifg=%s', component_name, highlight.bg, highlight.fg))
+
+  -- separatedn hi
+  local next_hl = next_cp and utils.get_default(components[next_cp].hl, default_hl) or default_hl
+  vim.cmd(string.format('hi Kissline_sp_%s guibg=%s guifg=%s', component_name, next_hl.bg, highlight.bg))
+end
+
+local function generate_component(component_name, component)
+  if type(component.fn) == 'string' then
+    return ' '.. component.fn .. ' '
+  else
+    return [[ %{luaeval('require("kissline.components").]] .. component_name ..[[.fn()')} ]]
+  end
+end
+
+local function generate_section(component_name, side, next_cp)
   local component = components[component_name]
   local separtor = utils.get_default(component.separator, nil)
-  local highlight = nil
+  local use_mode_hl = utils.get_default(component.use_mode_hl, false)
+  local highlight = use_mode_hl and default_hl or utils.get_default(component.hl, default_hl)
   local line = ''
 
-  -- setting up compnent hi
-  if component.hl == true then
-    highlight = default_hl
-  else
-    highlight = utils.get_default(component.hl, default_hl)
-    vim.cmd(string.format('hi Kissline_%s guibg=%s guifg=%s', component_name, highlight.bg, highlight.fg))
-  end
+  generate_highlights(component_name, highlight, next_cp)
+  local sp_hi_name = use_mode_hl and '%#Kissline_mode_sp#' or  '%#'..'Kissline_sp_'.. component_name ..'#'
+  local cp_hi_name = use_mode_hl and '%#Kissline_mode#' or '%#'..'Kissline_'.. component_name ..'#'
+  local cp_generated = generate_component(component_name, component)
 
-  if next_cn then
-    local next_component = components[next_cn]
-    local next_hl = utils.get_default(next_component.hl, default_hl)
-    vim.cmd(string.format('hi Kissline_sp_%s guibg=%s guifg=%s', component_name, next_hl.bg, highlight.bg))
-  else
-    vim.cmd(string.format('hi Kissline_sp_%s guibg=%s guifg=%s', component_name, default_hl.bg, highlight.bg))
-  end
-
+  -- separtor left
   if side == 'right' and separtor then
-    if component.hl == true then
-      line = line .. '%#Kissline_mode_sp#'
-      else
-      line = line .. '%#'..'Kissline_sp_'.. component_name ..'#'
-    end
+    line = line .. sp_hi_name
     line = line .. component.separator[1]
   end
-
-  if component.hl == true then
-    line = line .. '%#Kissline_mode#'
-    else
-    line = line .. '%#'..'Kissline_'.. component_name ..'#'
-  end
-
-  if type(component.fn) == 'string' then
-    line = line .. component.fn
-  else
-    line = line .. [[ %{luaeval('require("kissline.components").]] .. component_name ..[[.fn()')} ]]
-  end
-
+  -- component
+  line = line .. cp_hi_name
+  line = line .. cp_generated
+  -- separator right
   if side == 'left' and separtor then
-    if component.hl == true then
-      line = line .. '%#Kissline_mode_sp#'
-      line = line .. '%#Kissline_mode_sp#'
-      else
-      line = line .. '%#'..'Kissline_sp_'.. component_name ..'#'
-    end
+    line = line .. sp_hi_name
     line = line .. component.separator[2]
   end
-  -- line = line .. [[%{luaeval('require("kissline.components").component_decorator')]]..'("'..component_name..'")}'
+
   return line
 end
 
@@ -66,7 +55,7 @@ local layout_active = {
 }
 
 
-M.active = function ()
+local function active ()
   -- return components.get_lsp_client()
   local sline = '%{kissline#_update_color_lua()}'
   for idx, cn in ipairs(layout_active[1]) do
@@ -81,4 +70,10 @@ M.active = function ()
   return sline
 end
 
-return M
+
+
+
+
+return {
+ active = active
+}

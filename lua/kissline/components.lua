@@ -2,7 +2,7 @@ local hi_secondary = { bg='#3E4452', fg='#ABB2BF'}
 
 return  {
   mode = {
-    hl = true,
+    use_mode_hl = true,
     separator = {'', ''},
     fn = function ()
       return vim.fn['kissline#CurrentMode']()
@@ -15,7 +15,7 @@ return  {
     end
   },
   line_info = {
-    hl = true,
+    use_mode_hl = true,
     separator = {'', ''},
     fn = '%3l:%-2v'
   },
@@ -36,7 +36,7 @@ return  {
     end
   },
   space_width = {
-    fn = " %{&expandtab?'Spc:'.&shiftwidth:'Tab:'.&shiftwidth} "
+    fn = "%{&expandtab?'Spc:'.&shiftwidth:'Tab:'.&shiftwidth}"
   },
 
   get_lsp_client = {
