@@ -29,4 +29,11 @@ M.get_lsp_client = function(msg)
   end
 end
 
+
+M.fileIcon = function()
+ local fname = vim.fn.expand('%:t')
+ local fextension = vim.fn.fnamemodify(fname,':e')
+ return require('nvim-web-devicons').get_icon(fname,  fextension, {default = true})
+end
+
 return M
