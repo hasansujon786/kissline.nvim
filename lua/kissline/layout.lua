@@ -27,8 +27,8 @@ local function generate_section(component_name, side, next_cp)
   local line = ''
 
   generate_highlights(component_name, highlight, next_cp)
-  local sp_hi_name = use_mode_hl and '%#Kissline_active_0_alt#' or  '%#'..'Kissline_sp_'.. component_name ..'#'
-  local cp_hi_name = use_mode_hl and '%#Kissline_active_0#' or '%#'..'Kissline_'.. component_name ..'#'
+  local sp_hi_name = use_mode_hl and '%#Kissline_cur_mode_sp#' or  '%#'..'Kissline_sp_'.. component_name ..'#'
+  local cp_hi_name = use_mode_hl and '%#Kissline_cur_mode#' or '%#'..'Kissline_'.. component_name ..'#'
   local cp_generated = generate_component(component_name, component)
 
   -- separtor left

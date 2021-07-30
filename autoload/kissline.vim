@@ -16,8 +16,8 @@ function! kissline#_update_color() abort
     return ''
   endif
   let s:mode = mode
-  exec printf('hi! link Kissline_active_0     Kissline_active_0_%s', mode)
-  exec printf('hi! link Kissline_active_0_alt Kissline_active_0_%s_alt', mode)
+  exec printf('hi! link Kissline_cur_mode     Kissline_mode_%s', mode)
+  exec printf('hi! link Kissline_cur_mode_sp  Kissline_mode_sp_%s', mode)
   return ''
 endfunction
 
@@ -36,12 +36,12 @@ function! kissline#_focus()
 endfunction
 
 function! kissline#_init() abort
-  hi Kissline_active_0      guibg=#98C379 guifg=#2C323C gui=bold
-  hi Kissline_active_0_alt  guibg=#3E4452 guifg=#98C379
-  hi Kissline_active_1      guibg=#3E4452 guifg=#ABB2BF
-  hi Kissline_active_1_alt  guibg=#2C323C guifg=#3E4452
-  hi Kissline_active_2      guibg=#2C323C guifg=#717785
-  hi Kissline_active_2_alt  guibg=#2C323C guifg=#2C323C
+  hi Kissline_cur_mode      guibg=#98C379 guifg=#2C323C gui=bold
+  hi Kissline_cur_mode_sp  guibg=#3E4452 guifg=#98C379
+  " hi Kissline_active_1      guibg=#3E4452 guifg=#ABB2BF
+  " hi Kissline_active_1_alt  guibg=#2C323C guifg=#3E4452
+  " hi Kissline_active_2      guibg=#2C323C guifg=#717785
+  " hi Kissline_active_2_alt  guibg=#2C323C guifg=#2C323C
 
   " Secondary section color (inactive)
   hi Kissline_inactive_0      guibg=#3E4452 guifg=#717785
@@ -64,8 +64,8 @@ function! kissline#_init() abort
         \ 'replace' :'#E06C75',
         \}
   for key in keys(s:highlight_colors)
-    exec printf('hi Kissline_active_0_%s     guifg=#2C323C guibg=%s gui=bold', key, get(s:highlight_colors,key))
-    exec printf('hi Kissline_active_0_%s_alt guibg=#3E4452 guifg=%s', key, get(s:highlight_colors,key))
+    exec printf('hi Kissline_mode_%s     guifg=#2C323C guibg=%s gui=bold', key, get(s:highlight_colors,key))
+    exec printf('hi Kissline_mode_sp_%s  guibg=#3E4452 guifg=%s', key, get(s:highlight_colors,key))
   endfor
 endfunction
 
