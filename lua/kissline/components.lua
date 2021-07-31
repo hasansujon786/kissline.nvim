@@ -4,24 +4,49 @@ local icon_provider = require('kissline.profider.icon')
 
 local hi_secondary = { bg='#3E4452', fg='#ABB2BF'}
 
+-- toggle and stirng fn need space
 return  {
   mode = {
     use_mode_hl = true,
-    separator = {'', ''},
     fn = function ()
       return vim.fn['kissline#CurrentMode']()
     end,
   },
-  harpoon = {
+  arrow_separator = {
+    use_mode_hl = true,
+    separator = {'', ''},
+    fn = ''
+  },
+  spell = {
+    use_mode_hl = true,
+    toggle = function ()
+      return vim.fn.getbufvar(vim.api.nvim_get_current_buf(), '&spell')
+    end,
     fn = function ()
-      local status = require("harpoon.mark").status()
-      return status == '' and '' or 'H:' .. status
+      return '  '
+    end,
+  },
+  readonly = {
+    use_mode_hl = true,
+    toggle = function ()
+      return vim.api.nvim_buf_get_option(0, 'readonly')
+    end,
+    fn = function ()
+      return '  '
+    end,
+  },
+  harpoon = {
+    toggle = function ()
+      return require("harpoon.mark").status() ~= ''
+    end,
+    fn = function ()
+      return  ' H:' .. require("harpoon.mark").status() ..' '
     end
   },
   line_info = {
     use_mode_hl = true,
     separator = {'', ''},
-    fn = '%3l:%-2v'
+    fn = ' %3l:%-3v '
   },
   filename_with_icon = {
     hl = hi_secondary,
@@ -37,7 +62,7 @@ return  {
   scroll_info = {
     hl = hi_secondary,
     separator = {'', ''},
-    fn = '%3p%%'
+    fn = ' %3p%% '
   },
   filetype = {
     fn = function ()
@@ -46,7 +71,7 @@ return  {
     end
   },
   space_width = {
-    fn = "%{&expandtab?'Spc:'.&shiftwidth:'Tab:'.&shiftwidth}"
+    fn = " %{&expandtab?'Spc:'.&shiftwidth:'Tab:'.&shiftwidth} "
   },
 
   get_lsp_client = {

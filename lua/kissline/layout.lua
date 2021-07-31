@@ -34,9 +34,14 @@ end
 
 local function generate_component(component_name, component, highlights, is_active)
   if type(component.fn) == 'string' then
-    return ' '.. component.fn .. ' '
+    return component.fn
   elseif component.raw then
     return ' '..component.fn(highlights, is_active).. ' '
+  elseif type(component.toggle) == 'function' then
+    return string.format(
+      [[%%{luaeval('require("kissline.components").%s.toggle()')?luaeval('require("kissline.components").%s.fn()'):''}]],
+      component_name, component_name
+    )
   else
     return string.format([[ %%{luaeval('require("kissline.components").%s.fn()')} ]], component_name)
   end
@@ -68,7 +73,7 @@ local function generate_section(component_name, side, next_cp, is_active)
 end
 
 local layout_active = {
-  {'mode', 'filename_with_icon'},
+  {'mode', 'spell', 'readonly', 'arrow_separator', 'filename_with_icon'},
   {'harpoon', 'get_lsp_client', 'space_width', 'filetype', 'scroll_info', 'line_info'}
 }
 local layout_inactive = {
