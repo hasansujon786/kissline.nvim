@@ -1,3 +1,6 @@
+local file_provider = require('kissline.profider.file')
+local icon_provider = require('kissline.profider.icon')
+
 local hi_secondary = { bg='#3E4452', fg='#ABB2BF'}
 
 return  {
@@ -21,8 +24,13 @@ return  {
   },
   filename_with_icon = {
     hl = hi_secondary,
+    raw = true,
     separator = {'', ''},
-    fn = '%t'
+    fn = function (highlights, is_active)
+      local icon = icon_provider.get_devicon(vim.api.nvim_get_current_buf(), is_active, highlights[1])
+      local fname = file_provider.filename(vim.api.nvim_get_current_buf())
+      return string.format('%s %s', icon, fname)
+    end,
   },
   scroll_info = {
     hl = hi_secondary,

@@ -32,11 +32,13 @@ local function generate_highlights(component_name, component, next_cp, is_active
   return cp_hi_name, sp_hi_name
 end
 
-local function generate_component(component_name, component)
+local function generate_component(component_name, component, highlights, is_active)
   if type(component.fn) == 'string' then
     return ' '.. component.fn .. ' '
+  elseif component.raw then
+    return ' '..component.fn(highlights, is_active).. ' '
   else
-    return [[ %{luaeval('require("kissline.components").]] .. component_name ..[[.fn()')} ]]
+    return string.format([[ %%{luaeval('require("kissline.components").%s.fn()')} ]], component_name)
   end
 end
 
@@ -46,7 +48,7 @@ local function generate_section(component_name, side, next_cp, is_active)
   local line = ''
 
   local cp_hi_name, sp_hi_name = generate_highlights(component_name, component, next_cp, is_active)
-  local cp_generated = generate_component(component_name, component)
+  local cp_generated = generate_component(component_name, component, {cp_hi_name, sp_hi_name}, is_active)
 
   -- separtor left
   if side == 'right' and separtor then
