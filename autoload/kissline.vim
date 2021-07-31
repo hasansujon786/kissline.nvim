@@ -29,10 +29,10 @@ function! kissline#_update_all()
   endfor
 endfunction
 function! kissline#_blur()
-   call setwinvar(0, '&statusline', kissline#layout#inactive())
+   call setwinvar(0, '&statusline', luaeval("require('kissline.layout').inactive()"))
 endfunction
 function! kissline#_focus()
-   call setwinvar(0, '&statusline', kissline#layout#active())
+   call setwinvar(0, '&statusline', luaeval("require('kissline.layout').active()"))
 endfunction
 
 function! kissline#_init() abort
