@@ -3,7 +3,7 @@ local utils = require('kissline.utils')
 local hl = {
   default = {
     active   = {bg = '#2C323C', fg = '#717785'},
-    inactive = {bg = '#ff0000', fg = '#717785'},
+    inactive = {bg = '#3E4452', fg = '#3E4452'},
   }
 }
 

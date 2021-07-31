@@ -1,3 +1,4 @@
+local utils = require('kissline.utils')
 local file_provider = require('kissline.profider.file')
 local icon_provider = require('kissline.profider.icon')
 
@@ -24,10 +25,11 @@ return  {
   },
   filename_with_icon = {
     hl = hi_secondary,
-    raw = true,
+    -- raw = true,
     separator = {'', ''},
     fn = function (highlights, is_active)
-      local icon = icon_provider.get_devicon(vim.api.nvim_get_current_buf(), is_active, highlights[1])
+      -- local icon = icon_provider.get_devicon(vim.api.nvim_get_current_buf(), is_active, highlights[1])
+      local icon = utils.fileIcon()
       local fname = file_provider.filename(vim.api.nvim_get_current_buf())
       return string.format('%s %s', icon, fname)
     end,
