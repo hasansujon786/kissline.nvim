@@ -1,3 +1,4 @@
+local Job = require('plenary.job')
 local M = {}
 
 M.fileIcon = function()
@@ -34,5 +35,34 @@ end
 M.get_default = function(x, default)
   return M.if_nil(x, default, x)
 end
+
+M.git_branch = function()
+  local j = Job:new({
+    command = "git",
+    args = {'rev-parse', '--abbrev-ref', 'HEAD'},
+    cwd = vim.fn.expand('%:p:h')
+  })
+
+  local ok, result = pcall(function()
+    return vim.trim(j:sync()[1])
+  end)
+
+  if ok then
+    return result
+  else
+    return ''
+  end
+end
+
+-- local file_icon = function(_, buffer)
+--   local ok, icon = pcall(function()
+--     return require('nvim-web-devicons').get_icon(
+--       buffer.name,
+--       buffer.extension,
+--       {default = true}
+--     )
+--   end)
+--   return ok and icon or ''
+-- end
 
 return M

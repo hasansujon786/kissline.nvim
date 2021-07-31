@@ -35,6 +35,15 @@ return  {
       return '  '
     end,
   },
+  wrap = {
+    use_mode_hl = true,
+    toggle = function ()
+      return vim.fn.getbufvar(vim.api.nvim_get_current_buf(), '&wrap')
+    end,
+    fn = function ()
+      return " wrap "
+    end
+  },
   harpoon = {
     toggle = function ()
       return require("harpoon.mark").status() ~= ''
@@ -72,6 +81,14 @@ return  {
   },
   space_width = {
     fn = " %{&expandtab?'Spc:'.&shiftwidth:'Tab:'.&shiftwidth} "
+  },
+  git_branch = {
+    toggle = function ()
+      return utils.git_branch() ~= ''
+    end,
+    fn = function ()
+      return '  '..utils.git_branch()..' '
+    end
   },
 
   get_lsp_client = {

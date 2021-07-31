@@ -73,8 +73,8 @@ local function generate_section(component_name, side, next_cp, is_active)
 end
 
 local layout_active = {
-  {'mode', 'spell', 'readonly', 'arrow_separator', 'filename_with_icon'},
-  {'harpoon', 'get_lsp_client', 'space_width', 'filetype', 'scroll_info', 'line_info'}
+  {'mode', 'spell', 'readonly', 'wrap', 'arrow_separator', 'filename_with_icon'},
+  {'harpoon', 'get_lsp_client', 'git_branch',  'space_width', 'filetype', 'scroll_info', 'line_info'}
 }
 local layout_inactive = {
   {'filename_with_icon'},
