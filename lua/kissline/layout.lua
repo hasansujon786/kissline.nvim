@@ -1,17 +1,35 @@
 local components = require('kissline.components')
 local utils = require('kissline.utils')
-local default_hl = {bg = '#2C323C', fg = '#717785'}
-local default_hl_inactive = { bg='#ff0000', fg='#ABB2BF'}
+local hl = {
+  default = {
+    active   = {bg = '#2C323C', fg = '#717785'},
+    inactive = {bg = '#ff0000', fg = '#717785'},
+  }
+}
 
-local function generate_highlights(component_name, highlight, next_cp, is_active)
+local function generate_highlights(component_name, component, next_cp, is_active)
+  local use_mode_hl = utils.get_default(component.use_mode_hl, false)
   local hl_state = is_active and 'active' or 'inactive'
+  local hl_cp = use_mode_hl and hl.default[hl_state] or utils.get_default(component.hl, hl.default[hl_state])
+  local sp_hi_name = ''
+  local cp_hi_name = ''
 
-  -- component hi
-  vim.cmd(string.format('hi Kissline_%s_%s guibg=%s guifg=%s', hl_state, component_name, highlight.bg, highlight.fg))
+  if use_mode_hl then
+    cp_hi_name = string.format('Kissline_cur_mode_%s', hl_state)
+    sp_hi_name = string.format('Kissline_cur_mode_sp_%s', hl_state)
+  else
+    cp_hi_name = string.format('Kissline_%s_%s', hl_state, component_name)
+    sp_hi_name = string.format('Kissline_sp_%s_%s', hl_state, component_name)
 
-  -- separatedn hi
-  local next_hl = next_cp and utils.get_default(components[next_cp].hl, default_hl) or default_hl
-  vim.cmd(string.format('hi Kissline_sp_%s_%s guibg=%s guifg=%s', hl_state, component_name, next_hl.bg, highlight.bg))
+    -- component hi
+    vim.cmd(string.format('hi %s guibg=%s guifg=%s', cp_hi_name, hl_cp.bg, hl_cp.fg))
+
+    -- separatedn hi
+    local next_hl = next_cp and utils.get_default(components[next_cp].hl, hl.default[hl_state]) or hl.default[hl_state]
+    vim.cmd(string.format('hi %s guibg=%s guifg=%s', sp_hi_name, next_hl.bg, hl_cp.bg))
+  end
+
+  return cp_hi_name, sp_hi_name
 end
 
 local function generate_component(component_name, component)
@@ -25,27 +43,22 @@ end
 local function generate_section(component_name, side, next_cp, is_active)
   local component = components[component_name]
   local separtor = utils.get_default(component.separator, nil)
-  local use_mode_hl = utils.get_default(component.use_mode_hl, false)
-  local highlight = use_mode_hl and default_hl or utils.get_default(component.hl, default_hl)
-  local hl_state = is_active and 'active' or 'inactive'
   local line = ''
 
-  generate_highlights(component_name, highlight, next_cp, is_active)
-  local sp_hi_name = use_mode_hl and '%#Kissline_cur_mode_sp_'..hl_state..'#' or '%#Kissline_sp_'..hl_state..'_'..component_name..'#'
-  local cp_hi_name = use_mode_hl and '%#Kissline_cur_mode_'..hl_state..'#' or '%#Kissline_'..hl_state..'_'..component_name..'#'
+  local cp_hi_name, sp_hi_name = generate_highlights(component_name, component, next_cp, is_active)
   local cp_generated = generate_component(component_name, component)
 
   -- separtor left
   if side == 'right' and separtor then
-    line = line .. sp_hi_name
+    line = line .. '%#'..sp_hi_name..'#'
     line = line .. component.separator[1]
   end
   -- component
-  line = line .. cp_hi_name
+  line = line .. '%#'..cp_hi_name..'#'
   line = line .. cp_generated
   -- separator right
   if side == 'left' and separtor then
-    line = line .. sp_hi_name
+    line = line .. '%#'..sp_hi_name..'#'
     line = line .. component.separator[2]
   end
 
