@@ -10,11 +10,11 @@ let g:loaded_kissline = 1
 " set statusline=%!kissline#layout#active()
 augroup StausLine
   au!
-  au FocusGained,WinEnter,BufEnter,BufDelete,BufWinLeave,SessionLoadPost,FileChangedShellPost
+  au FocusGained,WinEnter,BufEnter,BufDelete,BufWinLeave,SessionLoadPost,FileChangedShellPost,ColorScheme
         \ * call kissline#_update_all()
   au User NotifierNotificationLoaded,NeogitStatusRefreshed call kissline#_update_all()
   au FocusLost * call kissline#_blur()
-  au VimEnter,ColorScheme * call kissline#_init()
+  au VimEnter,ColorScheme * lua require('kissline.theme.one').init()
 augroup END
 
 

@@ -9,7 +9,28 @@ return  {
   mode = {
     use_mode_hl = true,
     fn = function ()
-      return vim.fn['kissline#CurrentMode']()
+      local mode_names={
+        n  = 'NORMAL',
+        no = 'NORMAL·OPERATOR·PENDING',
+        v  = 'VISUAL',
+        V  = 'V-LINE',
+        s  = 'SELECT',
+        S  = 'S-LINE',
+        i  = 'INSERT',
+        R  = 'REPLACE',
+        Rv = 'V-REPLACE',
+        c  = 'NORMAL',
+        cv = 'VIM EX',
+        ce = 'EX',
+        r  = 'PROMPT',
+        rm = 'MORE',
+        t  = 'TERMINAL',
+        ['r?'] = 'CONFIRM',
+        ['!']  = 'SHELL',
+        [''] = 'V-BLOCK',
+        [''] = 'S-BLOCK',
+      }
+      return mode_names[vim.fn.mode()]
     end,
   },
   arrow_separator = {
@@ -55,7 +76,7 @@ return  {
   line_info = {
     use_mode_hl = true,
     separator = {'', ''},
-    fn = ' %3l:%-3v '
+    fn = ' %3l:%-2v '
   },
   filename_with_icon = {
     hl = hi_secondary,
