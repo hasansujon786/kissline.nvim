@@ -35,3 +35,18 @@ function! kissline#_focus()
    call setwinvar(0, '&statusline', luaeval("require('kissline.layout').active()"))
 endfunction
 
+function! kissline#TaskTimerStatus()
+  if !exists('g:tt_loaded')
+    return ''
+  else
+    try
+      let icon = tt#get_status() =~ 'break' ? '' : ''
+      let status = (!tt#is_running() && !hasan#tt#is_tt_paused() ? 'off' :
+            \ hasan#tt#is_tt_paused() ? 'paused' :
+            \ tt#get_remaining_smart_format())
+      return icon.' '.status
+    catch
+      return ''
+    endtry
+  endif
+endfunction

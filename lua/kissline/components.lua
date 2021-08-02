@@ -111,6 +111,11 @@ return  {
       return '  '..utils.git_branch()..' '
     end
   },
+  task_timer = {
+    fn = function ()
+      return vim.fn['kissline#TaskTimerStatus']()
+    end
+  },
 
   get_lsp_client = {
     fn = function(msg)

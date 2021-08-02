@@ -7,6 +7,15 @@ local hl = {
   }
 }
 
+local layout_active = {
+  {'mode', 'spell', 'readonly', 'wrap', 'arrow_separator', 'filename_with_icon'},
+  {'harpoon', 'get_lsp_client', 'git_branch', 'task_timer', 'space_width', 'filetype', 'scroll_info', 'line_info'}
+}
+local layout_inactive = {
+  {'filename_with_icon'},
+  {'scroll_info'}
+}
+
 local function generate_highlights(component_name, component, next_cp, is_active)
   local use_mode_hl = utils.get_default(component.use_mode_hl, false)
   local hl_state = is_active and 'active' or 'inactive'
@@ -71,16 +80,6 @@ local function generate_section(component_name, side, next_cp, is_active)
 
   return line
 end
-
-local layout_active = {
-  {'mode', 'spell', 'readonly', 'wrap', 'arrow_separator', 'filename_with_icon'},
-  {'harpoon', 'get_lsp_client', 'git_branch',  'space_width', 'filetype', 'scroll_info', 'line_info'}
-}
-local layout_inactive = {
-  {'filename_with_icon'},
-  {'scroll_info'}
-}
-
 
 local function active ()
   local sline = '%{kissline#_update_color()}'
