@@ -3,6 +3,13 @@ local file_provider = require('kissline.profider.file')
 local icon_provider = require('kissline.profider.icon')
 
 local hi_secondary = { bg='#3E4452', fg='#ABB2BF'}
+local selected_sp = 1
+local separator = {
+  { primary = {'', ''}, secondary = {'', ''} },
+  { primary = {'', ''}, secondary = {'', ''} },
+  { primary = {'', ''}, secondary = {'', ''} },
+  { primary = {'', ''}, secondary = {'', ''} },
+}
 
 -- toggle and stirng fn need space
 return  {
@@ -35,7 +42,7 @@ return  {
   },
   arrow_separator = {
     use_mode_hl = true,
-    separator = {'', ''},
+    separator = separator[selected_sp].primary,
     fn = ''
   },
   spell = {
@@ -75,13 +82,13 @@ return  {
   },
   line_info = {
     use_mode_hl = true,
-    separator = {'', ''},
+    separator = separator[selected_sp].primary,
     fn = ' %3l:%-2v '
   },
   filename_with_icon = {
     hl = hi_secondary,
     -- raw = true,
-    separator = {'', ''},
+    separator = separator[selected_sp].primary,
     fn = function (highlights, is_active)
       -- local icon = icon_provider.get_devicon(vim.api.nvim_get_current_buf(), is_active, highlights[1])
       local icon = utils.fileIcon()
@@ -91,7 +98,7 @@ return  {
   },
   scroll_info = {
     hl = hi_secondary,
-    separator = {'', ''},
+    separator = separator[selected_sp].primary,
     fn = ' %3p%% '
   },
   filetype = {
