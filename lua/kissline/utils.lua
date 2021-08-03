@@ -39,7 +39,8 @@ end
 M.git_branch = function()
   local j = Job:new({
     command = "git",
-    args = {'rev-parse', '--abbrev-ref', 'HEAD'},
+    -- args = {'rev-parse', '--abbrev-ref', 'HEAD'},
+    args = {'branch', '--show-current'},
     cwd = vim.fn.expand('%:p:h')
   })
 
