@@ -37,6 +37,12 @@ M.get_default = function(x, default)
 end
 
 M.git_branch = function()
+  local isReadonly = vim.api.nvim_buf_get_option(0, 'readonly')
+  local isModifiable = vim.api.nvim_buf_get_option(0, 'modifiable')
+  if isReadonly or not isModifiable then
+    return ''
+  end
+
   local j = Job:new({
     command = "git",
     -- args = {'rev-parse', '--abbrev-ref', 'HEAD'},
