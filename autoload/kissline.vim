@@ -50,3 +50,9 @@ function! kissline#TaskTimerStatus()
     endtry
   endif
 endfunction
+
+" Tab ============================================
+
+function! kissline#_tab_layout()
+  return luaeval("require('kissline.tab').layout()")
+endfunction

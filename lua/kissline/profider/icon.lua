@@ -43,6 +43,11 @@ M.icons = {
   search = '',
   dot =  '●',
   pomodoro = '',
+  left_trunc_marker = '',
+  right_trunc_marker = '',
+  close = '',
+  line_double = '‖',
+  line_l = '▎'
 }
 
 return M
