@@ -27,6 +27,7 @@ local colors = {
 }
 
 local function init()
+  vim.fn['kissline#colors#_ApplyTabLineColors']()
   hl.createhighlight('Kissline_cur_mode_active', colors.black, colors.normal, 'bold')
   hl.createhighlight('Kissline_cur_mode_sp_active', colors.normal, colors.visual_grey)
 

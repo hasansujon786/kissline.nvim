@@ -1,7 +1,10 @@
 local file_provider = require('kissline.profider.file')
 local icon_provider = require('kissline.profider.icon')
 local utils = require('kissline.utils')
+
+-- state
 local maxLenght = 20
+-- local paddingLeft = false
 
 local getTabName = function (bufNr)
   local tabName = file_provider.filename(bufNr)
@@ -23,17 +26,16 @@ local generateTab = function(tabNr, isSelected)
   local barIcon = icon_provider.icons.line_double
   local barHl = (isSelected and '%#KisslineBarActive#' or '%#KisslineBar#')
   local tabHl = (isSelected and '%#KisslineTabActive#' or '%#KisslineTab#')
-  local buttonClose = '%'..tabNr..'X'..icon_provider.icons.close..'%X'
-  local modified = icon_provider.icons.dot
+  local buttonClose = '%'..tabNr..'X'..icon_provider.icons.close..' %X'
+  local modified = icon_provider.icons.dot..' '
+
   local label = {
     '%'..tabNr..'T'..barHl.. barIcon ..  tabHl,
     tabNr,
     fileIcon,
     getTabName(buflist[winnr]),
-    (isModified and modified or buttonClose),
-    '%#KisslineTabLine#'..'%T',
+    (isModified and modified or buttonClose)..'%#KisslineTabLine#'..'%T',
   }
-
   return table.concat(label, ' ')
 end
 
@@ -54,9 +56,19 @@ local layout = function()
 end
 -- vim.cmd[[
 -- set tabline=%!kissline#_tab_layout()
--- call TablineApplyColors()
+-- lua require('kissline.theme.one').init()
 -- ]]
 
+-- return luaeval("require('kissline.tab').layout()")
+-- lua require('kissline.tab').togglePadding('left')
+
+-- local togglePadding = function (side)
+--   if side == 'left' then
+--     paddingLeft = not paddingLeft
+--     vim.cmd[[set tabline=%!kissline#_tab_layout()]]
+--   end
+-- end
+
 return {
-  layout = layout
+  layout = layout,
 }
