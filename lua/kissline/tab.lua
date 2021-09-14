@@ -3,17 +3,45 @@ local icon_provider = require('kissline.profider.icon')
 local utils = require('kissline.utils')
 
 -- state
-local maxLenght = 20
+local maxTabLenght = 20
+local tabsCanFit = 4
 -- local paddingLeft = false
+
+local getVisibleTabsIdx = function()
+  local currentTabNr = vim.fn.tabpagenr()
+  local visible_tabs = {currentTabNr}
+  local left = 0
+  local right = 0
+
+  if currentTabNr > tabsCanFit then
+    right = 0
+    left =  tabsCanFit - 1
+  elseif currentTabNr <= tabsCanFit then
+    right = tabsCanFit - currentTabNr
+    left = tabsCanFit - (right + 1)
+  end
+
+  for i=1, left do
+    table.insert(visible_tabs, currentTabNr - i)
+  end
+  for i=1, right do
+    table.insert(visible_tabs, currentTabNr + i)
+  end
+  return {visible_tabs, left, right}
+end
+local is_tab_truncate = function(tabNr)
+  local v_tabs_idx = getVisibleTabsIdx()[1]
+  return vim.fn.index(v_tabs_idx, tabNr) == -1 and true or false
+end
 
 local getTabName = function (bufNr)
   local tabName = file_provider.filename(bufNr)
   local stringLenght = tabName:len()
 
-  if stringLenght > maxLenght then
-    return tabName:sub(1, maxLenght - 2) .. '..'
-  elseif stringLenght < maxLenght then
-    return tabName .. string.rep(' ', maxLenght - stringLenght)
+  if stringLenght > maxTabLenght then
+    return tabName:sub(1, maxTabLenght - 2) .. '..'
+  elseif stringLenght < maxTabLenght then
+    return tabName .. string.rep(' ', maxTabLenght - stringLenght)
   end
   return tabName
 end
@@ -43,15 +71,20 @@ local tabs = function()
   local i = 1
   local tabs = '%#KisslineTabLine#'
   while i <= vim.fn.tabpagenr('$') do
-    tabs = tabs ..  generateTab(i, i == vim.fn.tabpagenr())
+    if is_tab_truncate(i) == false then
+      tabs = tabs .. generateTab(i, i == vim.fn.tabpagenr())
+    end
     i = i + 1
   end
-  return tabs .. icon_provider.icons.line_l
+  return tabs .. '%#KisslineBar#'..icon_provider.icons.line_l
 end
 
 local layout = function()
   local line = ''
   line = line .. tabs()
+  if vim.fn.tabpagenr('$') > tabsCanFit then
+    line = line .. '%=%#KisslineTabActive# '..vim.fn.tabpagenr()..'/'..vim.fn.tabpagenr('$')..' '
+  end
   return line
 end
 -- vim.cmd[[
