@@ -52,17 +52,18 @@ local generateTab = function(tabNr, isSelected)
   local isModified = vim.api.nvim_buf_get_option(buflist[winnr], 'modified')
   local fileIcon = utils.fileIcon()
   local barIcon = (isSelected and icon_provider.icons.line_double or icon_provider.icons.line_l)
-  local barHl = (isSelected and '%#KisslineBarActive#' or '%#KisslineBar#')
+  local barHl = (isSelected and '%#KisslineTabSeparatorActive#' or '%#KisslineTabSeparator#')
   local tabHl = (isSelected and '%#KisslineTabActive#' or '%#KisslineTab#')
-  local buttonClose = '%'..tabNr..'X'..icon_provider.icons.close..' %X'
-  local modified = icon_provider.icons.dot..' '
+  local buttonHl = (vim.fn.tabpagenr('$') == 1 and '%#KisslineTabItemInactive#' or '')
+  local buttonClose = buttonHl..'%'..tabNr..'X'..icon_provider.icons.close..' %X'
+  local modifiedIcon = icon_provider.icons.dot..' '
 
   local label = {
     '%'..tabNr..'T'..barHl.. barIcon ..  tabHl,
     tabNr,
     fileIcon,
     getTabName(buflist[winnr]),
-    (isModified and modified or buttonClose)..'%#KisslineTabLine#'..'%T',
+    (isModified and modifiedIcon or buttonClose)..'%#KisslineTabLine#'..'%T',
   }
   return table.concat(label, ' ')
 end
@@ -76,7 +77,7 @@ local tabs = function()
     end
     i = i + 1
   end
-  return tabs .. '%#KisslineBar#'..icon_provider.icons.line_l
+  return tabs .. '%#KisslineTabSeparator#'..icon_provider.icons.line_l
 end
 
 local layout = function()
