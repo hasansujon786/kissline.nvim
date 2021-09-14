@@ -3,7 +3,7 @@ local icon_provider = require('kissline.profider.icon')
 local utils = require('kissline.utils')
 
 -- state
-local maxTabLenght = 20
+local maxTabLenght = 27
 local tabsCanFit = 4
 -- local paddingLeft = false
 
@@ -35,13 +35,16 @@ local is_tab_truncate = function(tabNr)
 end
 
 local getTabName = function (bufNr)
-  local tabName = file_provider.filename(bufNr)
+  local fileIcon = utils.fileIcon()
+  local tabName = fileIcon..' '..file_provider.filename(bufNr)
   local stringLenght = tabName:len()
 
   if stringLenght > maxTabLenght then
     return tabName:sub(1, maxTabLenght - 2) .. '..'
   elseif stringLenght < maxTabLenght then
-    return tabName .. string.rep(' ', maxTabLenght - stringLenght)
+    local pad = (maxTabLenght - stringLenght)/2
+    table.insert(vim.g.foo, pad)
+    return string.rep(' ', pad - math.fmod(stringLenght, 2)) .. tabName .. string.rep(' ', pad)
   end
   return tabName
 end
@@ -50,7 +53,6 @@ local generateTab = function(tabNr, isSelected)
   local buflist = vim.fn.tabpagebuflist(tabNr)
   local winnr = vim.fn.tabpagewinnr(tabNr)
   local isModified = vim.api.nvim_buf_get_option(buflist[winnr], 'modified')
-  local fileIcon = utils.fileIcon()
   local barIcon = (isSelected and icon_provider.icons.line_double or icon_provider.icons.line_l)
   local barHl = (isSelected and '%#KisslineTabSeparatorActive#' or '%#KisslineTabSeparator#')
   local tabHl = (isSelected and '%#KisslineTabActive#' or '%#KisslineTab#')
@@ -58,14 +60,9 @@ local generateTab = function(tabNr, isSelected)
   local buttonClose = buttonHl..'%'..tabNr..'X'..icon_provider.icons.close..' %X'
   local modifiedIcon = icon_provider.icons.dot..' '
 
-  local label = {
-    '%'..tabNr..'T'..barHl.. barIcon ..  tabHl,
-    tabNr,
-    fileIcon,
-    getTabName(buflist[winnr]),
-    (isModified and modifiedIcon or buttonClose)..'%#KisslineTabLine#'..'%T',
-  }
-  return table.concat(label, ' ')
+  return '%'..tabNr..'T'..barHl..barIcon
+    ..tabHl.. getTabName(buflist[winnr])
+    ..(isModified and modifiedIcon or buttonClose)..'%#KisslineTabLine#'..'%T'
 end
 
 local tabs = function()
