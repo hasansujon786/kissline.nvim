@@ -8,6 +8,7 @@ endif
 let g:loaded_kissline = 1
 " lua require('kissline')
 " set statusline=%!kissline#layout#active()
+lua require('kissline.tab').onWindowResize()
 set tabline=%!kissline#_tab_layout()
 lua require('kissline.theme.one').init()
 
@@ -18,6 +19,7 @@ augroup StausLine
   au User NotifierNotificationLoaded,NeogitStatusRefreshed call kissline#_update_all()
   au FocusLost * call kissline#_blur()
   au ColorScheme * lua require('kissline.theme.one').init()
+  au VimResized * lua require('kissline.tab').onWindowResize()
 augroup END
 
 

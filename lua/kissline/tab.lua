@@ -101,4 +101,8 @@ end
 
 return {
   layout = layout,
+  onWindowResize = function ()
+    local width = vim.api.nvim_get_option('columns') - 6
+    tabsCanFit = math.floor(width/maxTabLenght)
+  end
 }
