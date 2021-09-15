@@ -1,12 +1,6 @@
 local Job = require('plenary.job')
 local M = {}
 
-M.fileIcon = function()
- local fname = vim.fn.expand('%:t')
- local fextension = vim.fn.fnamemodify(fname,':e')
- return require('nvim-web-devicons').get_icon(fname,  fextension, {default = true})
-end
-
 -- For autocommands, extracted from
 -- https://github.com/norcalli/nvim_utils
 M.create_augroups = function(definitions)
@@ -60,16 +54,5 @@ M.git_branch = function()
     return ''
   end
 end
-
--- local file_icon = function(_, buffer)
---   local ok, icon = pcall(function()
---     return require('nvim-web-devicons').get_icon(
---       buffer.name,
---       buffer.extension,
---       {default = true}
---     )
---   end)
---   return ok and icon or ''
--- end
 
 return M

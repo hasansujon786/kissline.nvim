@@ -1,6 +1,5 @@
 local file_provider = require('kissline.profider.file')
 local icon_provider = require('kissline.profider.icon')
-local utils = require('kissline.utils')
 
 -- state
 local maxTabLenght = 27
@@ -35,15 +34,15 @@ local is_tab_truncate = function(tabNr)
 end
 
 local getTabName = function (bufNr)
-  local fileIcon = utils.fileIcon()
-  local tabName = fileIcon..' '..file_provider.filename(bufNr)
+  local fname = file_provider.filename(bufNr)
+  local fileIcon = icon_provider.fileIcon(fname)
+  local tabName = fileIcon..' '..fname
   local stringLenght = tabName:len()
 
-  if stringLenght > maxTabLenght then
-    return tabName:sub(1, maxTabLenght - 2) .. '..'
-  elseif stringLenght < maxTabLenght then
+  if stringLenght > maxTabLenght - 3 then
+    return ' '..tabName:sub(1, maxTabLenght - 5) .. '.. '
+  elseif stringLenght <= maxTabLenght - 3 then
     local pad = (maxTabLenght - stringLenght)/2
-    table.insert(vim.g.foo, pad)
     return string.rep(' ', pad - math.fmod(stringLenght, 2)) .. tabName .. string.rep(' ', pad)
   end
   return tabName

@@ -1,5 +1,10 @@
 local M = {}
 
+M.fileIcon = function(fname)
+ local fextension = vim.fn.fnamemodify(fname,':e')
+ return require('nvim-web-devicons').get_icon(fname,  fextension, {default = true})
+end
+
 M.get_devicon = function(bufnr, isSelected, section_hl)
   local dev, devhl
   local file = vim.fn.bufname(bufnr)
