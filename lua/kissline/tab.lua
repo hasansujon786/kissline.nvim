@@ -38,12 +38,14 @@ local getTabName = function (bufNr)
   local fileIcon = icon_provider.fileIcon(fname)
   local tabName = fileIcon..' '..fname
   local stringLenght = tabName:len()
+  local maxStringLenght = maxTabLenght - 3      -- 3 spaced used by cross & indicator icon
 
-  if stringLenght > maxTabLenght - 3 then
-    return ' '..tabName:sub(1, maxTabLenght - 5) .. '.. '
-  elseif stringLenght <= maxTabLenght - 3 then
+  if stringLenght > maxStringLenght then
+    return ' '..tabName:sub(1, maxStringLenght - 2) .. '.. '
+  elseif stringLenght <= maxStringLenght then
     local pad = (maxTabLenght - stringLenght)/2
-    return string.rep(' ', pad - math.fmod(stringLenght, 2)) .. tabName .. string.rep(' ', pad)
+    local balancer =  math.fmod(stringLenght, 2)
+    return string.rep(' ', pad - balancer) .. tabName .. string.rep(' ', pad)
   end
   return tabName
 end
