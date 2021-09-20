@@ -90,9 +90,9 @@ return  {
     -- raw = true,
     separator = separator[selected_sp].primary,
     fn = function (highlights, is_active)
-      -- local icon = icon_provider.get_devicon(vim.api.nvim_get_current_buf(), is_active, highlights[1])
-      local fname = file_provider.filename(vim.api.nvim_get_current_buf())
-      local icon = icon_provider.fileIcon(fname)
+      local bufnr = vim.api.nvim_get_current_buf()
+      local fname = file_provider.filename(bufnr)
+      local icon = icon_provider.fileIcon(bufnr)
       return string.format('%s %s', icon, fname)
     end,
   },

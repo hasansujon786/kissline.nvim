@@ -35,8 +35,9 @@ end
 
 local getTabName = function (bufNr)
   local fname = file_provider.filename(bufNr)
-  local fileIcon = icon_provider.fileIcon(fname)
-  local tabName = fileIcon..' '..fname
+  local icon = icon_provider.fileIcon(bufNr)
+  -- TODO: calculate string width without icon
+  local tabName = icon..' '..fname
   local stringLenght = tabName:len()
   local maxStringLenght = maxTabLenght - 3      -- 3 spaced used by cross & indicator icon
 
