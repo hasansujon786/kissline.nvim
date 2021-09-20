@@ -45,14 +45,14 @@ local function generate_component(component_name, component, highlights, is_acti
   if type(component.fn) == 'string' then
     return component.fn
   elseif component.raw then
-    return ' '..component.fn(highlights, is_active).. ' '
+    return ' '..component.fn(is_active, highlights[1]).. ' '
   elseif type(component.toggle) == 'function' then
     return string.format(
-      [[%%{luaeval('require("kissline.components").%s.toggle()')?luaeval('require("kissline.components").%s.fn()'):''}]],
-      component_name, component_name
+      [[%%{luaeval('require("kissline.components").%s.toggle()')?luaeval('require("kissline.components").%s.fn(%s, "%s")'):''}]],
+      component_name, component_name, is_active, highlights[1]
     )
   else
-    return string.format([[ %%{luaeval('require("kissline.components").%s.fn()')} ]], component_name)
+    return string.format([[ %%{luaeval('require("kissline.components").%s.fn(%s, "%s")')} ]], component_name, is_active, highlights[1])
   end
 end
 

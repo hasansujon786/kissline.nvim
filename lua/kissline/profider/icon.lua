@@ -1,27 +1,29 @@
 local M = {}
 
 M.fileIcon = function(bufnr, isSelected, section_hl)
-  local icon, hl
+  local devhl = ''
+  local divIcon = ''
   local fname = vim.fn.bufname(bufnr)
   local fextension = vim.fn.fnamemodify(fname,':e')
   local buftype = vim.fn.getbufvar(bufnr, '&buftype')
   local filetype = vim.fn.getbufvar(bufnr, '&filetype')
+
   if filetype == 'TelescopePrompt' then
-    icon = ''
+    divIcon = ''
   elseif filetype == 'fugitive' then
-    icon, hl = require'nvim-web-devicons'.get_icon('git')
+    divIcon, devhl = require'nvim-web-devicons'.get_icon('git')
   elseif filetype == 'vimwiki' then
-    icon, hl = require'nvim-web-devicons'.get_icon('markdown')
+    divIcon, devhl = require'nvim-web-devicons'.get_icon('markdown')
   elseif buftype == 'terminal' then
-    icon, hl = require'nvim-web-devicons'.get_icon('zsh')
+    divIcon, devhl = require'nvim-web-devicons'.get_icon('zsh')
   else
-    icon, hl = require'nvim-web-devicons'.get_icon(fname, fextension, {default=true})
+    divIcon, devhl = require'nvim-web-devicons'.get_icon(fname, fextension, {default=true})
   end
 
   if isSelected and section_hl then
-    return  hl + icon + section_hl
+    return '%#' .. devhl.. '#' .. divIcon .. section_hl
   else
-    return icon
+    return divIcon
   end
 end
 

@@ -33,12 +33,11 @@ local is_tab_truncate = function(tabNr)
   return vim.fn.index(v_tabs_idx, tabNr) == -1 and true or false
 end
 
-local getTabName = function (bufNr)
+local getTabName = function (bufNr, isSelected, section_hl)
   local fname = file_provider.filename(bufNr)
-  local icon = icon_provider.fileIcon(bufNr)
-  -- TODO: calculate string width without icon
+  local icon = icon_provider.fileIcon(bufNr, isSelected, section_hl)
   local tabName = icon..' '..fname
-  local stringLenght = tabName:len()
+  local stringLenght = fname:len() + 2
   local maxStringLenght = maxTabLenght - 3      -- 3 spaced used by cross & indicator icon
 
   if stringLenght > maxStringLenght then
@@ -63,7 +62,7 @@ local generateTab = function(tabNr, isSelected)
   local modifiedIcon = icon_provider.icons.dot..' '
 
   return '%'..tabNr..'T'..barHl..barIcon
-    ..tabHl.. getTabName(buflist[winnr])
+    ..tabHl.. getTabName(buflist[winnr], isSelected, tabHl)
     ..(isModified and modifiedIcon or buttonClose)..'%#KisslineTabLine#'..'%T'
 end
 

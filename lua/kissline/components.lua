@@ -89,7 +89,8 @@ return  {
     hl = hi_secondary,
     -- raw = true,
     separator = separator[selected_sp].primary,
-    fn = function (highlights, is_active)
+    fn = function (isActive, section_hl)
+      -- TODO: add icon section to every component
       local bufnr = vim.api.nvim_get_current_buf()
       local fname = file_provider.filename(bufnr)
       local icon = icon_provider.fileIcon(bufnr)
