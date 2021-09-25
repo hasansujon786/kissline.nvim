@@ -4,7 +4,6 @@ local icon_provider = require('kissline.profider.icon')
 -- state
 local maxTabLenght = 27
 local tabsCanFit = 4
--- local paddingLeft = false
 
 local getVisibleTabsIdx = function()
   local currentTabNr = vim.fn.tabpagenr()
@@ -36,18 +35,16 @@ end
 local getTabName = function (bufNr, isSelected, section_hl)
   local fname = file_provider.filename(bufNr)
   local icon = icon_provider.fileIcon(bufNr, isSelected, section_hl)
-  local tabName = icon..' '..fname
   local stringLenght = fname:len() + 2
-  local maxStringLenght = maxTabLenght - 3      -- 3 spaced used by cross & indicator icon
+  local availableTabSpace = maxTabLenght - 3        -- 3 spaces used by cross & indicator icon
 
-  if stringLenght > maxStringLenght then
-    return ' '..tabName:sub(1, maxStringLenght - 2) .. '.. '
-  elseif stringLenght <= maxStringLenght then
-    local pad = (maxTabLenght - stringLenght)/2
+  if stringLenght > (availableTabSpace - 2) then
+    return string.format(' %s %s.. ', icon, fname:sub(1, availableTabSpace - 6))
+  else
+    local pad = (availableTabSpace - stringLenght)/2
     local balancer =  math.fmod(stringLenght, 2)
-    return string.rep(' ', pad - balancer) .. tabName .. string.rep(' ', pad)
+    return string.format('%s%s %s%s', string.rep(' ', pad), icon, fname, string.rep(' ', pad + balancer))
   end
-  return tabName
 end
 
 local generateTab = function(tabNr, isSelected)
