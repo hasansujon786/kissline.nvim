@@ -1,4 +1,5 @@
 local hl = require('kissline.utils.hl')
+local tab = require('kissline.tab')
 
 local colors = {
   normal  ='#98C379',
@@ -26,10 +27,41 @@ local colors = {
   vertsplit     = '#181A1F',
 }
 
+
+local function genTabColors(tabStyle)
+  if tabStyle == 'default' then
+    local tabcolors = {
+      tabline       = { bg = '#21252b', fg = '#5C6370'},
+      tabActive     = { bg = '#242b38', fg = '#dddddd'},
+      tabActiveSp   = { bg = '#242b38', fg = '#61AFEF'},
+      tabInactive   = { bg = '#21252b', fg = '#5C6370'},
+      tabInactiveSp = { bg = '#21252b', fg = '#17191C'},
+    }
+    hl.createhighlight('KisslineTabLine', tabcolors.tabline.fg, tabcolors.tabline.bg)
+    hl.createhighlight('KisslineTabItemInactive', tabcolors.tabline.fg)
+    hl.createhighlight('KisslineTabActive', tabcolors.tabActive.fg, tabcolors.tabActive.bg)
+    hl.createhighlight('KisslineTabSeparatorActive', tabcolors.tabActiveSp.fg, tabcolors.tabActiveSp.bg)
+    hl.createhighlight('KisslineTabInactive', tabcolors.tabInactive.fg, tabcolors.tabInactive.bg)
+    hl.createhighlight('KisslineTabSeparatorInactive', tabcolors.tabInactiveSp.fg, tabcolors.tabInactiveSp.bg)
+  else
+    local tabcolors = {
+      tabline     = { bg = '#16181c', fg = '#5C6370'},
+      tabActive   = { bg = '#242b38', fg = '#dddddd'},
+      tabInactive = { bg = '#1e2127', fg = '#5C6370'}
+    }
+    hl.createhighlight('KisslineTabLine', tabcolors.tabline.fg, tabcolors.tabline.bg)
+    hl.createhighlight('KisslineTabItemInactive', tabcolors.tabline.fg)
+    hl.createhighlight('KisslineTabActive', tabcolors.tabActive.fg, tabcolors.tabActive.bg)
+    hl.createhighlight('KisslineTabSeparatorActive', tabcolors.tabline.bg, tabcolors.tabActive.bg)
+    hl.createhighlight('KisslineTabInactive', tabcolors.tabInactive.fg, tabcolors.tabInactive.bg)
+    hl.createhighlight('KisslineTabSeparatorInactive', tabcolors.tabline.bg, tabcolors.tabInactive.bg)
+  end
+end
+
 local function init()
-  vim.fn['kissline#colors#_ApplyTabLineColors']()
   hl.createhighlight('Kissline_cur_mode_active', colors.black, colors.normal, 'bold')
   hl.createhighlight('Kissline_cur_mode_sp_active', colors.normal, colors.visual_grey)
+  genTabColors(tab.tabStyle)
 
   for key, value in pairs(colors) do
     hl.createhighlight('Kissline_mode_'..key, '#2C323C', value, 'bold')

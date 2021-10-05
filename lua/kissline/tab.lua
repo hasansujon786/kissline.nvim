@@ -4,6 +4,7 @@ local icon_provider = require('kissline.profider.icon')
 -- state
 local maxTabLenght = 27
 local tabsCanFit = 4
+local tabStyle = 'default'
 
 local getVisibleTabsIdx = function()
   local currentTabNr = vim.fn.tabpagenr()
@@ -52,15 +53,21 @@ local generateTab = function(tabNr, isSelected)
   local winnr = vim.fn.tabpagewinnr(tabNr)
   local isModified = vim.api.nvim_buf_get_option(buflist[winnr], 'modified')
   local barIcon = (isSelected and icon_provider.icons.line_double or icon_provider.icons.line_l)
-  local barHl = (isSelected and '%#KisslineTabSeparatorActive#' or '%#KisslineTabSeparator#')
-  local tabHl = (isSelected and '%#KisslineTabActive#' or '%#KisslineTab#')
+  local barHl = (isSelected and '%#KisslineTabSeparatorActive#' or '%#KisslineTabSeparatorInactive#')
+  local tabHl = (isSelected and '%#KisslineTabActive#' or '%#KisslineTabInactive#')
   local buttonHl = (vim.fn.tabpagenr('$') == 1 and '%#KisslineTabItemInactive#' or '')
   local buttonClose = buttonHl..'%'..tabNr..'X'..icon_provider.icons.close..' %X'
   local modifiedIcon = icon_provider.icons.dot..' '
 
-  return '%'..tabNr..'T'..barHl..barIcon
-    ..tabHl.. getTabName(buflist[winnr], isSelected, tabHl)
-    ..(isModified and modifiedIcon or buttonClose)..'%#KisslineTabLine#'..'%T'
+  if tabStyle == 'default' then
+    return '%'..tabNr..'T'..barHl..barIcon
+      ..tabHl..getTabName(buflist[winnr], isSelected, tabHl)
+      ..(isModified and modifiedIcon or buttonClose)..'%#KisslineTabLine#'..'%T'
+  else
+    return '%'..tabNr..'T'..barHl..''
+      ..tabHl..getTabName(buflist[winnr], isSelected, tabHl)
+      ..(isModified and modifiedIcon or buttonClose)..barHl..''..'%T'
+  end
 end
 
 local tabs = function()
@@ -72,7 +79,11 @@ local tabs = function()
     end
     i = i + 1
   end
-  return tabs .. '%#KisslineTabSeparator#'..icon_provider.icons.line_l
+  if tabStyle == 'default' then
+    tabs = tabs..'%#KisslineTabSeparatorInactive#'..icon_provider.icons.line_l
+  end
+
+  return tabs .. '%#KisslineTabLine#'
 end
 
 local layout = function()
@@ -100,6 +111,7 @@ end
 
 return {
   layout = layout,
+  tabStyle = tabStyle,
   onWindowResize = function ()
     local width = vim.api.nvim_get_option('columns') - 6
     tabsCanFit = math.floor(width/maxTabLenght)
