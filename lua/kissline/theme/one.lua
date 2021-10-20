@@ -38,7 +38,7 @@ local function genTabColors(tabStyle)
       tabInactiveSp = { bg = '#21252b', fg = '#17191C'},
     }
     hl.createhighlight('KisslineTabLine', tabcolors.tabline.fg, tabcolors.tabline.bg)
-    hl.createhighlight('KisslineTabItemInactive', tabcolors.tabline.fg)
+    hl.createhighlight('KisslineTabActiveDim', tabcolors.tabline.fg, tabcolors.tabActive.bg)
     hl.createhighlight('KisslineTabActive', tabcolors.tabActive.fg, tabcolors.tabActive.bg)
     hl.createhighlight('KisslineTabSeparatorActive', tabcolors.tabActiveSp.fg, tabcolors.tabActiveSp.bg)
     hl.createhighlight('KisslineTabInactive', tabcolors.tabInactive.fg, tabcolors.tabInactive.bg)
@@ -50,7 +50,7 @@ local function genTabColors(tabStyle)
       tabInactive = { bg = '#1e2127', fg = '#5C6370'}
     }
     hl.createhighlight('KisslineTabLine', tabcolors.tabline.fg, tabcolors.tabline.bg)
-    hl.createhighlight('KisslineTabItemInactive', tabcolors.tabline.fg)
+    hl.createhighlight('KisslineTabActiveDim', tabcolors.tabline.fg, tabcolors.tabActive.bg)
     hl.createhighlight('KisslineTabActive', tabcolors.tabActive.fg, tabcolors.tabActive.bg)
     hl.createhighlight('KisslineTabSeparatorActive', tabcolors.tabline.bg, tabcolors.tabActive.bg)
     hl.createhighlight('KisslineTabInactive', tabcolors.tabInactive.fg, tabcolors.tabInactive.bg)

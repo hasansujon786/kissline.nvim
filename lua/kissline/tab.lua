@@ -55,7 +55,7 @@ local generateTab = function(tabNr, isSelected)
   local barIcon = (isSelected and icon_provider.icons.line_double or icon_provider.icons.line_l)
   local barHl = (isSelected and '%#KisslineTabSeparatorActive#' or '%#KisslineTabSeparatorInactive#')
   local tabHl = (isSelected and '%#KisslineTabActive#' or '%#KisslineTabInactive#')
-  local buttonHl = (vim.fn.tabpagenr('$') == 1 and '%#KisslineTabItemInactive#' or '')
+  local buttonHl = (vim.fn.tabpagenr('$') == 1 and '%#KisslineTabActiveDim#' or '')
   local buttonClose = buttonHl..'%'..tabNr..'X'..icon_provider.icons.close..' %X'
   local modifiedIcon = icon_provider.icons.dot..' '
 
