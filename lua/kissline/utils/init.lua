@@ -55,4 +55,31 @@ M.git_branch = function()
   end
 end
 
+M.get_lsp_client = function()
+  local msg =  'LSP Inactive'
+  local buf_ft = vim.bo.filetype
+  local clients = vim.lsp.get_active_clients()
+  if next(clients) == nil then
+    return msg
+  end
+  local lsps = ''
+  for _, client in ipairs(clients) do
+    local filetypes = client.config.filetypes
+    if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+      if lsps == '' then
+        lsps = client.name
+      else
+        if not string.find(lsps, client.name) then
+          lsps = lsps .. ', ' .. client.name
+        end
+      end
+    end
+  end
+  if lsps == '' then
+    return msg
+  else
+    return lsps
+  end
+end
+
 return M

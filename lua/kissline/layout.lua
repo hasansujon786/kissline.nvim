@@ -9,7 +9,7 @@ local hl = {
 
 local layout_active = {
   {'mode', 'spell', 'readonly', 'wrap', 'arrow_separator', 'filename_with_icon'},
-  {'harpoon', 'get_lsp_client', 'git_branch', 'task_timer', 'space_width', 'filetype', 'scroll_info', 'line_info'}
+  {'harpoon', 'lsp_status', 'git_branch', 'task_timer', 'space_width', 'filetype', 'scroll_info', 'line_info'}
 }
 local layout_inactive = {
   {'filename_with_icon'},

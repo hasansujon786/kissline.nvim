@@ -11,7 +11,8 @@ local separator = {
   { primary = {'', ''}, secondary = {'', ''} },
 }
 
--- toggle and stirng fn need space
+-- NOTE: toggle and stirng fn need space
+
 return  {
   mode = {
     use_mode_hl = true,
@@ -124,37 +125,19 @@ return  {
       return vim.fn['kissline#TaskTimerStatus']()
     end
   },
-
-  get_lsp_client = {
+  lsp_status = {
     fn = function()
-      local msg =  "LSP Inactive"
-      local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
-      local clients = vim.lsp.get_active_clients()
-      if next(clients) == nil then
-        return msg
+      local progress_message = vim.lsp.util.get_progress_messages()
+      if #progress_message == 0 then
+        return  utils.get_lsp_client()
       end
-      local lsps = ""
-      for _, client in ipairs(clients) do
-        local filetypes = client.config.filetypes
-        if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-          -- print(client.name)
-          if lsps == "" then
-            -- print("first", lsps)
-            lsps = client.name
-          else
-            if not string.find(lsps, client.name) then
-              lsps = lsps .. ", " .. client.name
-            end
-            -- print("more", lsps)
-          end
-        end
+
+      local status = {}
+      for _, msg in pairs(progress_message) do
+        table.insert(status, (msg.percentage or 0) .. '% ' .. (msg.title or ''))
       end
-      if lsps == "" then
-        return msg
-      else
-        return lsps
-      end
+      return table.concat(status, ' ')
     end
-  }
+  },
 }
 
