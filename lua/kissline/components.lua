@@ -75,10 +75,12 @@ return  {
   },
   harpoon = {
     toggle = function ()
-      return require("harpoon.mark").status() ~= ''
+      local ok, harpoon_mark = pcall(require, 'harpoon.mark')
+      return ok and harpoon_mark.status() ~= ''
     end,
     fn = function ()
-      return  ' H:' .. require("harpoon.mark").status() ..' '
+      local ok, harpoon_mark = pcall(require, 'harpoon.mark')
+      return ok and ' H:'..harpoon_mark.status()..' '
     end
   },
   line_info = {
