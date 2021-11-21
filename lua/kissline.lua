@@ -1,4 +1,4 @@
--- local utils = require('kissline.utils')
+local utils = require('kissline.utils')
 -- local layout = require('kissline.layout')
 
 -- local update = {
@@ -32,9 +32,13 @@
 -- initColors()
 
 return {
-  setup = function ()
+  setup = function (opts)
     vim.g.loaded_kissline = true
-    require('kissline.theme.one').init()
+    opts = opts and opts or {}
+    opts.tab_style = utils.get_default(opts.tab_style, 'default')
+
+    require('kissline.tab').setTabConfigs(opts)
+    require('kissline.theme.one').init(opts)
     vim.fn['kissline#_init_autocommands']()
   end
 }

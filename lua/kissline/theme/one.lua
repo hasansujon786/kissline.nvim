@@ -1,5 +1,4 @@
 local hl = require('kissline.utils.hl')
-local tab = require('kissline.tab')
 
 local colors = {
   normal  ='#98C379',
@@ -29,7 +28,19 @@ local colors = {
 
 
 local function genTabColors(tabStyle)
-  if tabStyle == 'default' then
+  if tabStyle == 'angel_bar' then
+    local tabcolors = {
+    tabline     = { bg = '#16181c', fg = '#5C6370'},
+    tabActive   = { bg = '#242b38', fg = '#dddddd'},
+    tabInactive = { bg = '#1e2127', fg = '#5C6370'}
+    }
+    hl.createhighlight('KisslineTabLine', tabcolors.tabline.fg, tabcolors.tabline.bg)
+    hl.createhighlight('KisslineTabActiveDim', tabcolors.tabline.fg, tabcolors.tabActive.bg)
+    hl.createhighlight('KisslineTabActive', tabcolors.tabActive.fg, tabcolors.tabActive.bg)
+    hl.createhighlight('KisslineTabSeparatorActive', tabcolors.tabline.bg, tabcolors.tabActive.bg)
+    hl.createhighlight('KisslineTabInactive', tabcolors.tabInactive.fg, tabcolors.tabInactive.bg)
+    hl.createhighlight('KisslineTabSeparatorInactive', tabcolors.tabline.bg, tabcolors.tabInactive.bg)
+  else
     local tabcolors = {
       tabline       = { bg = '#21252b', fg = '#5C6370'},
       tabActive     = { bg = '#242b38', fg = '#dddddd'},
@@ -43,25 +54,13 @@ local function genTabColors(tabStyle)
     hl.createhighlight('KisslineTabSeparatorActive', tabcolors.tabActiveSp.fg, tabcolors.tabActiveSp.bg)
     hl.createhighlight('KisslineTabInactive', tabcolors.tabInactive.fg, tabcolors.tabInactive.bg)
     hl.createhighlight('KisslineTabSeparatorInactive', tabcolors.tabInactiveSp.fg, tabcolors.tabInactiveSp.bg)
-  else
-    local tabcolors = {
-      tabline     = { bg = '#16181c', fg = '#5C6370'},
-      tabActive   = { bg = '#242b38', fg = '#dddddd'},
-      tabInactive = { bg = '#1e2127', fg = '#5C6370'}
-    }
-    hl.createhighlight('KisslineTabLine', tabcolors.tabline.fg, tabcolors.tabline.bg)
-    hl.createhighlight('KisslineTabActiveDim', tabcolors.tabline.fg, tabcolors.tabActive.bg)
-    hl.createhighlight('KisslineTabActive', tabcolors.tabActive.fg, tabcolors.tabActive.bg)
-    hl.createhighlight('KisslineTabSeparatorActive', tabcolors.tabline.bg, tabcolors.tabActive.bg)
-    hl.createhighlight('KisslineTabInactive', tabcolors.tabInactive.fg, tabcolors.tabInactive.bg)
-    hl.createhighlight('KisslineTabSeparatorInactive', tabcolors.tabline.bg, tabcolors.tabInactive.bg)
   end
 end
 
-local function init()
+local function init(opts)
   hl.createhighlight('Kissline_cur_mode_active', colors.black, colors.normal, 'bold')
   hl.createhighlight('Kissline_cur_mode_sp_active', colors.normal, colors.visual_grey)
-  genTabColors(tab.tabStyle)
+  genTabColors(opts.tab_style)
 
   for key, value in pairs(colors) do
     hl.createhighlight('Kissline_mode_'..key, '#2C323C', value, 'bold')

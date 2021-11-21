@@ -4,7 +4,7 @@ local icon_provider = require('kissline.profider.icon')
 -- state
 local maxTabLenght = 27
 local tabsCanFit = 4
-local tabStyle = 'default'
+local tab_style = 'default'
 
 local getVisibleTabsIdx = function()
   local currentTabNr = vim.fn.tabpagenr()
@@ -59,14 +59,14 @@ local generateTab = function(tabNr, isSelected)
   local buttonClose = buttonHl..'%'..tabNr..'X'..icon_provider.icons.close..' %X'
   local modifiedIcon = icon_provider.icons.dot..' '
 
-  if tabStyle == 'default' then
-    return '%'..tabNr..'T'..barHl..barIcon
-      ..tabHl..getTabName(buflist[winnr], isSelected, tabHl)
-      ..(isModified and modifiedIcon or buttonClose)..'%#KisslineTabLine#'..'%T'
-  else
+  if tab_style == 'angel_bar' then
     return '%'..tabNr..'T'..barHl..''
       ..tabHl..getTabName(buflist[winnr], isSelected, tabHl)
       ..(isModified and modifiedIcon or buttonClose)..barHl..''..'%T'
+  else
+    return '%'..tabNr..'T'..barHl..barIcon
+      ..tabHl..getTabName(buflist[winnr], isSelected, tabHl)
+      ..(isModified and modifiedIcon or buttonClose)..'%#KisslineTabLine#'..'%T'
   end
 end
 
@@ -79,7 +79,7 @@ local tabs = function()
     end
     i = i + 1
   end
-  if tabStyle == 'default' then
+  if tab_style == 'default' then
     tabs = tabs..'%#KisslineTabSeparatorInactive#'..icon_provider.icons.line_l
   end
 
@@ -111,7 +111,9 @@ end
 
 return {
   layout = layout,
-  tabStyle = tabStyle,
+  setTabConfigs = function (opts)
+    tab_style = opts.tab_style
+  end,
   onWindowResize = function ()
     local width = vim.api.nvim_get_option('columns') - 6
     tabsCanFit = math.floor(width/maxTabLenght)
