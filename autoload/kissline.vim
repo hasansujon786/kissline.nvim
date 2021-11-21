@@ -1,3 +1,18 @@
+function kissline#_init_autocommands() abort
+  set tabline=%!kissline#_tab_layout()
+  call kissline#_update_all()
+
+  augroup StausLine
+    au!
+    au FocusGained,WinEnter,BufEnter,BufDelete,BufWinLeave,SessionLoadPost,FileChangedShellPost,ColorScheme
+          \ * call kissline#_update_all()
+    au User NotifierNotificationLoaded,NeogitStatusRefreshed call kissline#_update_all()
+    au FocusLost * call kissline#_blur()
+    au ColorScheme * lua require('kissline.theme.one').init()
+    au VimResized * lua require('kissline.tab').onWindowResize()
+  augroup END
+endfunction
+
 let s:mode = ''
 function! kissline#_update_color() abort
   let l:mode_color_names={
@@ -29,10 +44,10 @@ function! kissline#_update_all()
   endfor
 endfunction
 function! kissline#_blur()
-   call setwinvar(0, '&statusline', luaeval("require('kissline.layout').inactive()"))
+  call setwinvar(0, '&statusline', luaeval("require('kissline.layout').inactive()"))
 endfunction
 function! kissline#_focus()
-   call setwinvar(0, '&statusline', luaeval("require('kissline.layout').active()"))
+  call setwinvar(0, '&statusline', luaeval("require('kissline.layout').active()"))
 endfunction
 
 function! kissline#TaskTimerStatus()

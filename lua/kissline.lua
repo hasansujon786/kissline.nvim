@@ -1,12 +1,12 @@
-local utils = require('kissline.utils')
-local layout = require('kissline.layout')
+-- local utils = require('kissline.utils')
+-- local layout = require('kissline.layout')
 
-local update = {
-  all = function ()
-    -- vim.opt.statusline = layout.active()
-    -- vim.opt.statusline = layout.inactive()
-  end
-}
+-- local update = {
+--   all = function ()
+--     -- vim.opt.statusline = layout.active()
+--     -- vim.opt.statusline = layout.inactive()
+--   end
+-- }
 
 -- local autocmds = {
 --   Kissline = {
@@ -31,4 +31,12 @@ local update = {
 -- end
 -- initColors()
 
-return {}
+return {
+  setup = function ()
+    vim.g.loaded_kissline = true
+    require('kissline.theme.one').init()
+    vim.fn['kissline#_init_autocommands']()
+  end
+}
+
+
