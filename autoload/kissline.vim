@@ -1,14 +1,20 @@
-function kissline#_init_autocommands() abort
-  set tabline=%!kissline#_tab_layout()
+function kissline#_init_sline_autocommands() abort
   call kissline#_update_all()
 
-  augroup StausLine
+  augroup Kissline_statusline
     au!
     au FocusGained,WinEnter,BufEnter,BufDelete,BufWinLeave,SessionLoadPost,FileChangedShellPost,ColorScheme
           \ * call kissline#_update_all()
     au User NotifierNotificationLoaded,NeogitStatusRefreshed call kissline#_update_all()
     au FocusLost * call kissline#_blur()
-    au ColorScheme * lua require('kissline.theme.one').init()
+  augroup END
+endfunction
+
+function kissline#_init_tline_autocommands() abort
+  set tabline=%!kissline#_tab_layout()
+
+  augroup Kissline_tabline
+    au!
     au VimResized * lua require('kissline.tab').onWindowResize()
   augroup END
 endfunction

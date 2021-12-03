@@ -58,13 +58,17 @@ local function genTabColors(tabStyle)
 end
 
 local function init(opts)
-  hl.createhighlight('Kissline_cur_mode_active', colors.black, colors.normal, 'bold')
-  hl.createhighlight('Kissline_cur_mode_sp_active', colors.normal, colors.visual_grey)
-  genTabColors(opts.tab_style)
+  if not opts.disable_tab then
+    genTabColors(opts.tab_style)
+  end
+  if not opts.disable_line then
+    hl.createhighlight('Kissline_cur_mode_active', colors.black, colors.normal, 'bold')
+    hl.createhighlight('Kissline_cur_mode_sp_active', colors.normal, colors.visual_grey)
 
-  for key, value in pairs(colors) do
+    for key, value in pairs(colors) do
     hl.createhighlight('Kissline_mode_'..key, '#2C323C', value, 'bold')
     hl.createhighlight('Kissline_mode_sp_'..key, value,'#3E4452')
+    end
   end
 end
 

@@ -36,10 +36,18 @@ return {
     vim.g.loaded_kissline = true
     opts = opts and opts or {}
     opts.tab_style = utils.get_default(opts.tab_style, 'default')
+    opts.disable_line = utils.get_default(opts.disable_line, false)
+    opts.disable_tab = utils.get_default(opts.disable_tab, false)
 
-    require('kissline.tab').setTabConfigs(opts)
+    if not opts.disable_tab then
+      require('kissline.tab').setTabConfigs(opts)
+      vim.fn['kissline#_init_tline_autocommands']()
+    end
     require('kissline.theme.one').init(opts)
-    vim.fn['kissline#_init_autocommands']()
+    if not opts.disable_line then
+      vim.fn['kissline#_init_sline_autocommands']()
+    end
+
   end
 }
 
