@@ -36,12 +36,16 @@ function! kissline#_update_color() abort
   return ''
 endfunction
 
-function! kissline#_update_all()
+function! kissline#_update_all(...)
   let w = winnr()
   let s = winnr('$') == 1 && w > 0 ? [luaeval("require('kissline.layout').active()")] : [luaeval("require('kissline.layout').active()"), luaeval("require('kissline.layout').inactive()")]
   for n in range(1, winnr('$'))
     call setwinvar(n, '&statusline', s[n!=w])
   endfor
+  " if it is floating Window then update kissline again
+  if nvim_win_get_config(win_getid(w)).relative != ''
+    call timer_start(10, 'kissline#_update_all')
+  endif
 endfunction
 function! kissline#_blur()
   call setwinvar(0, '&statusline', luaeval("require('kissline.layout').inactive()"))
