@@ -1,32 +1,33 @@
 local M = {}
 
-M.fileIcon = function(bufnr, isSelected, section_hl)
+M.fileIcon = function(bufnr, isColored, section_hl)
   local ok, devicons = pcall(require, 'nvim-web-devicons')
   if not ok then return '' end
 
-  local devhl, divIcon = '', ''
-  local f_name, f_extension = vim.fn.expand '%:t', vim.fn.expand '%:e'
+  local devhl, devIcon = '', ''
+  local bufname = vim.fn.bufname(bufnr)
+  local f_name, f_extension = vim.fn.fnamemodify(bufname,':t'), vim.fn.fnamemodify(bufname,':e')
   f_extension = f_extension ~= '' and f_extension or vim.bo.filetype
 
   local buftype = vim.fn.getbufvar(bufnr, '&buftype')
   local filetype = vim.fn.getbufvar(bufnr, '&filetype')
 
   if filetype == 'TelescopePrompt' then
-    divIcon, devhl = '', 'DevIconDefault'
+    devIcon, devhl = '', 'DevIconDefault'
   elseif filetype == 'fugitive' then
-    divIcon, devhl = devicons.get_icon('git')
+    devIcon, devhl = devicons.get_icon('git')
   elseif filetype == 'vimwiki' then
-    divIcon, devhl = devicons.get_icon('markdown')
+    devIcon, devhl = devicons.get_icon('markdown')
   elseif buftype == 'terminal' then
-    divIcon, devhl = devicons.get_icon('zsh')
+    devIcon, devhl = devicons.get_icon('zsh')
   else
-    divIcon, devhl = devicons.get_icon(f_name, f_extension, {default = true})
+    devIcon, devhl = devicons.get_icon(f_name, f_extension, {default = true})
   end
 
-  if isSelected and section_hl then
-    return '%#' .. devhl.. '#' .. divIcon .. section_hl
+  if isColored and section_hl then
+    return '%#' .. devhl.. '#' .. devIcon .. section_hl
   else
-    return divIcon
+    return devIcon
   end
 end
 
