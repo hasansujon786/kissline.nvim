@@ -33,11 +33,12 @@ local utils = require('kissline.utils')
 
 return {
   setup = function (opts)
-    vim.g.loaded_kissline = true
     opts = opts and opts or {}
     opts.tab_style = utils.get_default(opts.tab_style, 'default')
     opts.disable_line = utils.get_default(opts.disable_line, false)
     opts.disable_tab = utils.get_default(opts.disable_tab, false)
+    vim.g.loaded_kissline_sline = not opts.disable_line
+    vim.g.loaded_kissline_tline = not opts.disable_tab
 
     if not opts.disable_tab then
       require('kissline.tab').setTabConfigs(opts)
