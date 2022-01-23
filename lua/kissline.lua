@@ -49,6 +49,13 @@ return {
       vim.fn['kissline#_init_sline_autocommands']()
     end
 
+    local keyopts = { noremap=true, silent=true }
+    local map = vim.api.nvim_set_keymap
+    map('n', '<leader>pt', ':lua ToggleProjectTab()<CR>', keyopts)
+    map('n', 'gl', ':lua MoveToTabab(1)<CR>', keyopts)
+    map('n', 'gh', ':lua MoveToTabab(-1)<CR>', keyopts)
+    map('n', '<tab>', ':lua MoveToTabab(1)<CR>', keyopts)
+    map('n', '<s-tab>', ':lua MoveToTabab(-1)<CR>', keyopts)
   end
 }
 
