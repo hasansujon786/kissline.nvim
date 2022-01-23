@@ -6,6 +6,10 @@ local maxTabLenght = 27
 local tabsCanFit = 4
 local tab_style = 'default'
 
+local show_project_tab = false
+local current_tab_list = {}
+local selected_tab = nil
+
 local getVisibleTabsIdx = function()
   local currentTabNr = vim.fn.tabpagenr()
   local visible_tabs = {currentTabNr}
@@ -70,27 +74,62 @@ local generateTab = function(tabNr, isSelected)
   end
 end
 
-local tabs = function()
-  local i = 1
-  local tabs = '%#KisslineTabLine#'
-  while i <= vim.fn.tabpagenr('$') do
-    if is_tab_truncate(i) == false then
-      tabs = tabs .. generateTab(i, i == vim.fn.tabpagenr())
-    end
-    i = i + 1
-  end
-  if tab_style == 'default' then
-    tabs = tabs..'%#KisslineTabSeparatorInactive#'..icon_provider.icons.line_l
+local generate_styled_tab = function(tab)
+  -- local fname = file_provider.filename(tab.bufnr)
+  -- return fname
+  local buflist = vim.fn.tabpagebuflist(tab.tabnr)
+  local winnr = vim.fn.tabpagewinnr(tab.tabnr)
+  local isModified = vim.api.nvim_buf_get_option(buflist[winnr], 'modified')
+  local barIcon = (tab.is_selected and icon_provider.icons.line_double or icon_provider.icons.line_l)
+  local barHl = (tab.is_selected and '%#KisslineTabSeparatorActive#' or '%#KisslineTabSeparatorInactive#')
+  local tabHl = (tab.is_selected and '%#KisslineTabActive#' or '%#KisslineTabInactive#')
+  local buttonHl = (vim.fn.tabpagenr('$') == 1 and '%#KisslineTabActiveDim#' or '')
+  local buttonClose = buttonHl..'%'..tab.tabnr..'X'..icon_provider.icons.close..' %X'
+  local modifiedIcon = icon_provider.icons.dot..' '
+
+  if tab.is_selected then
+    selected_tab = tab
   end
 
-  return tabs .. '%#KisslineTabLine#'
+  if tab_style == 'angel_bar' then
+    return '%'..tab.tabnr..'T'..barHl..''
+      ..tabHl..getTabName(buflist[winnr], tab.is_selected, tabHl)
+      ..(isModified and modifiedIcon or buttonClose)..barHl..''..'%T'
+  else
+    return '%'..tab.tabnr..'T'..barHl..barIcon
+      ..tabHl..getTabName(buflist[winnr], tab.is_selected, tabHl)
+      ..(isModified and modifiedIcon or buttonClose)..'%#KisslineTabLine#'..'%T'
+  end
+end
+
+function ToggleProjectTab()
+  show_project_tab = not show_project_tab
+  vim.cmd[[redrawtabline]]
+end
+
+local tabs = function(tab_list)
+  local tabline = '%#KisslineTabLine#'
+  for _, tab in ipairs(tab_list) do
+      tabline = tabline .. generate_styled_tab(tab)
+  end
+  if tab_style == 'default' then
+    tabline = tabline..'%#KisslineTabSeparatorInactive#'..icon_provider.icons.line_l
+  end
+  return tabline .. '%#KisslineTabLine#'
 end
 
 local layout = function()
+  if show_project_tab then
+    local current_project, projects = Proj_tabname_list()
+    current_tab_list = current_project.tabs
+  else
+    current_tab_list = file_provider.all_tabname_list()
+  end
+
   local line = ''
-  line = line .. tabs()
-  if vim.fn.tabpagenr('$') > tabsCanFit then
-    line = line .. '%=%#KisslineTabActive# '..vim.fn.tabpagenr()..'/'..vim.fn.tabpagenr('$')..' '
+  line = line .. tabs(current_tab_list)
+  if #current_tab_list > tabsCanFit then
+    line = line .. '%=%#KisslineTabActive# '..vim.fn.tabpagenr()..'/'..#current_tab_list..' '
   end
   return line
 end
@@ -110,6 +149,9 @@ end
 -- end
 
 return {
+  get_current_tab_list = function()
+    return current_tab_list
+  end,
   layout = layout,
   setTabConfigs = function (opts)
     tab_style = opts.tab_style

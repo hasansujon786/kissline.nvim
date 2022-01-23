@@ -1,5 +1,27 @@
 local Job = require('plenary.job')
+local tab = require('kissline.tab')
 local M = {}
+
+
+function MoveToTabab(direction)
+  local tab_list = tab.get_current_tab_list()
+  local tabnr = vim.fn.tabpagenr()
+  local fount_tab_index = nil
+
+  for index, value in ipairs(tab_list) do
+    if tabnr == value.tabnr then
+      fount_tab_index = index
+    end
+  end
+
+  local destination_tab = tab_list[fount_tab_index + direction]
+  if destination_tab == nil then
+    print('no next tab')
+    return 0
+  end
+
+  vim.cmd(destination_tab.tabnr ..'tabnext')
+end
 
 -- For autocommands, extracted from
 -- https://github.com/norcalli/nvim_utils
