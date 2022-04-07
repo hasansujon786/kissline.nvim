@@ -26,7 +26,6 @@ local colors = {
   vertsplit     = '#181A1F',
 }
 
-
 local function genTabColors(tabStyle)
   if tabStyle == 'angel_bar' then
     local tabcolors = {
@@ -66,13 +65,13 @@ local function init(opts)
     hl.createhighlight('Kissline_cur_mode_sp_active', colors.normal, colors.visual_grey)
 
     for key, value in pairs(colors) do
-    hl.createhighlight('Kissline_mode_'..key, '#2C323C', value, 'bold')
-    hl.createhighlight('Kissline_mode_sp_'..key, value,'#3E4452')
+      hl.createhighlight('Kissline_mode_'..key, '#2C323C', value, 'bold')
+      hl.createhighlight('Kissline_mode_sp_'..key, value,'#3E4452')
     end
   end
 end
 
 return {
-  init = init
+  init = init,
 }
 

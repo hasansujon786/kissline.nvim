@@ -16,6 +16,7 @@ function kissline#_init_tline_autocommands() abort
   augroup Kissline_tabline
     au!
     au VimResized * lua require('kissline.tab').onWindowResize()
+    au ColorScheme * lua require('kissline.theme.one').init(require('kissline.configs').options)
   augroup END
 endfunction
 

@@ -78,7 +78,9 @@ M.icons = {
   right_trunc_marker = '',
   close = '',
   line_double = '‖',
-  line_l = '▎'
+  line_l = '▎',
+  -- line_double = '⏽',
+  -- line_l = '░'
 }
 
 return M
