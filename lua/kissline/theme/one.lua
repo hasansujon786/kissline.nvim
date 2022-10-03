@@ -56,7 +56,40 @@ local function genTabColors(tabStyle)
   end
 end
 
+local function genWinBarColors(tabStyle)
+  if tabStyle == 'angel_bar' then
+    local tabcolors = {
+    tabline     = { bg = '#16181c', fg = '#5C6370'},
+    tabActive   = { bg = '#242b38', fg = '#dddddd'},
+    tabInactive = { bg = '#1e2127', fg = '#5C6370'}
+    }
+    hl.createhighlight('KisslineWinBarLine', tabcolors.tabline.fg, tabcolors.tabline.bg)
+    hl.createhighlight('KisslineWinBarActiveDim', tabcolors.tabline.fg, tabcolors.tabActive.bg)
+    hl.createhighlight('KisslineWinBarActive', tabcolors.tabActive.fg, tabcolors.tabActive.bg)
+    hl.createhighlight('KisslineWinBarSeparatorActive', tabcolors.tabline.bg, tabcolors.tabActive.bg)
+    hl.createhighlight('KisslineWinBarInactive', tabcolors.tabInactive.fg, tabcolors.tabInactive.bg)
+    hl.createhighlight('KisslineWinBarSeparatorInactive', tabcolors.tabline.bg, tabcolors.tabInactive.bg)
+  else
+    local tabcolors = {
+      tabline       = { bg = '#21252b', fg = '#5C6370'},
+      tabActive     = { bg = '#2D3343', fg = '#dddddd'},
+      tabActiveSp   = { bg = '#242b38', fg = '#61AFEF'},
+      tabInactive   = { bg = '#2D3343', fg = '#5C6370'},
+      tabInactiveSp = { bg = '#21252b', fg = '#17191C'},
+    }
+    hl.createhighlight('KisslineWinBarLine', tabcolors.tabline.fg, tabcolors.tabline.bg)
+    hl.createhighlight('KisslineWinBarActiveDim', tabcolors.tabline.fg, tabcolors.tabActive.bg)
+    hl.createhighlight('KisslineWinBarActive', tabcolors.tabActive.fg, tabcolors.tabActive.bg)
+    hl.createhighlight('KisslineWinBarSeparatorActive', tabcolors.tabActiveSp.fg, tabcolors.tabActiveSp.bg)
+    hl.createhighlight('KisslineWinBarInactive', tabcolors.tabInactive.fg, tabcolors.tabInactive.bg)
+    hl.createhighlight('KisslineWinBarSeparatorInactive', tabcolors.tabInactiveSp.fg, tabcolors.tabInactiveSp.bg)
+  end
+end
+
 local function init(opts)
+  if opts.eneble_winbar then
+    genWinBarColors(opts.tab_style)
+  end
   if not opts.disable_tab then
     genTabColors(opts.tab_style)
   end

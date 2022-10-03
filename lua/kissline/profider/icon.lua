@@ -25,6 +25,7 @@ M.fileIcon = function(bufnr, isColored, section_hl)
   end
 
   if isColored and section_hl then
+   -- TODO: <04.10.22> parse dev icon color
     return '%#' .. devhl.. '#' .. devIcon .. section_hl
   else
     return devIcon

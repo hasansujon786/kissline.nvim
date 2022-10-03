@@ -70,6 +70,27 @@ local generateTab = function(tabNr, isSelected)
   end
 end
 
+local generateWinTab = function(buf, isSelected, tabNr)
+  -- local barIcon = (isSelected and icon_provider.icons.line_double or icon_provider.icons.line_l)
+  local isModified = vim.api.nvim_buf_get_option(buf, 'modified')
+  local barHl = (isSelected and '%#KisslineWinBarSeparatorActive#' or '%#KisslineWinBarSeparatorInactive#')
+  local tabHl = (isSelected and '%#KisslineWinBarActive#' or '%#KisslineWinBarInactive#')
+  local buttonHl = (isSelected and '%#KisslineWinBarActiveDim#' or '')
+  local buttonClose = buttonHl..'%'..tabNr..'X'..icon_provider.icons.close..' %X'
+  local modifiedIcon = icon_provider.icons.dot..' '
+
+  if tab_style == 'angel_bar' then
+    return '%'..tabNr..'T'..barHl..''
+      ..tabHl..getTabName(buf, isSelected, tabHl)
+      ..(isModified and modifiedIcon or buttonClose)..barHl..''..'%T'
+  else
+    -- return '%'..tabNr..'T'..barHl..barIcon
+    return '%'..tabNr..'T'
+      ..tabHl..getTabName(buf, isSelected, tabHl)
+      ..(isModified and modifiedIcon or buttonClose)..'%#KisslineWinBarLine#'..'%T'
+  end
+end
+
 local tabs = function()
   local i = 1
   local tabs = '%#KisslineTabLine#'
@@ -117,5 +138,6 @@ return {
   onWindowResize = function ()
     local width = vim.api.nvim_get_option('columns') - 6
     tabsCanFit = math.floor(width/maxTabLenght)
-  end
+  end,
+  generateWinTab = generateWinTab,
 }

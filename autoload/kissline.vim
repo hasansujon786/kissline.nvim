@@ -20,6 +20,14 @@ function kissline#_init_tline_autocommands() abort
   augroup END
 endfunction
 
+function kissline#_init_winbar_autocommands() abort
+  augroup Kissline_winbar
+    au!
+    au FocusGained,WinEnter,BufEnter * lua require('kissline.winbar').update_cur_win()
+    au ColorScheme * lua require('kissline.theme.one').init(require('kissline.configs').options)
+  augroup END
+endfunction
+
 let s:mode = ''
 function! kissline#_update_color() abort
   let l:mode_color_names={
