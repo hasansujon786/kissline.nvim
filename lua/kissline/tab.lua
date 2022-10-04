@@ -75,18 +75,19 @@ local generateWinTab = function(buf, isSelected, tabNr)
   local isModified = vim.api.nvim_buf_get_option(buf, 'modified')
   local barHl = (isSelected and '%#KisslineWinBarSeparatorActive#' or '%#KisslineWinBarSeparatorInactive#')
   local tabHl = (isSelected and '%#KisslineWinBarActive#' or '%#KisslineWinBarInactive#')
+  local tabHlRaw = (isSelected and 'KisslineWinBarActive' or 'KisslineWinBarInactive')
   local buttonHl = (isSelected and '%#KisslineWinBarActiveDim#' or '')
   local buttonClose = buttonHl..'%'..tabNr..'X'..icon_provider.icons.close..' %X'
   local modifiedIcon = icon_provider.icons.dot..' '
 
   if tab_style == 'angel_bar' then
     return '%'..tabNr..'T'..barHl..''
-      ..tabHl..getTabName(buf, isSelected, tabHl)
+      ..tabHl..getTabName(buf, isSelected, tabHlRaw)
       ..(isModified and modifiedIcon or buttonClose)..barHl..''..'%T'
   else
     -- return '%'..tabNr..'T'..barHl..barIcon
     return '%'..tabNr..'T'
-      ..tabHl..getTabName(buf, isSelected, tabHl)
+      ..tabHl..getTabName(buf, isSelected, tabHlRaw)
       ..(isModified and modifiedIcon or buttonClose)..'%#KisslineWinBarLine#'..'%T'
   end
 end

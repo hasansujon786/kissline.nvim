@@ -7,6 +7,7 @@ local api = vim.api
 local fn = vim.fn
 -- state
 local active_win = 0
+-- TODO: <05.10.22> get active_win proper way
 
 local function update_cur_win()
   active_win = api.nvim_get_current_win()
