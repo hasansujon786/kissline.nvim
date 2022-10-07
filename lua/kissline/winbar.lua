@@ -27,6 +27,10 @@ local function layout()
   return tab.generateWinTab(buf, win, win == active_win)
 end
 
+_G.close_win = function()
+  vim.cmd([[quit]])
+end
+
 return {
   update_cur_win = update_cur_win,
   layout = layout,
