@@ -8,10 +8,7 @@ M.create_augroups = function(definitions)
     vim.api.nvim_command('augroup ' .. group_name)
     vim.api.nvim_command('autocmd!')
     for _, def in ipairs(definition) do
-      local command = table.concat(
-        vim.tbl_flatten({ 'autocmd', def }),
-        ' '
-      )
+      local command = table.concat(vim.tbl_flatten({ 'autocmd', def }), ' ')
       vim.api.nvim_command(command)
     end
     vim.api.nvim_command('augroup END')
@@ -38,10 +35,10 @@ M.git_branch = function()
   end
 
   local j = Job:new({
-    command = "git",
+    command = 'git',
     -- args = {'rev-parse', '--abbrev-ref', 'HEAD'},
-    args = {'branch', '--show-current'},
-    cwd = vim.fn.expand('%:p:h')
+    args = { 'branch', '--show-current' },
+    cwd = vim.fn.expand('%:p:h'),
   })
 
   local ok, result = pcall(function()
@@ -56,7 +53,7 @@ M.git_branch = function()
 end
 
 M.get_lsp_client = function()
-  local msg =  'LSP Inactive'
+  local msg = 'LSP Inactive'
   local buf_ft = vim.bo.filetype
   local clients = vim.lsp.get_active_clients()
   if next(clients) == nil then

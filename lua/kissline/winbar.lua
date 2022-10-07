@@ -14,13 +14,6 @@ local function update_cur_win()
 end
 
 local function layout()
-  -- print(vim.fn.localtime())
-  local win = api.nvim_get_current_win()
-  local buf = api.nvim_get_current_buf()
-
-  local t = tab.generateWinTab(buf, win == active_win, 1)
-  return t
-
   -- local fname = file_provider.filename(buf)
   -- local icon = icon_provider.fileIcon(buf, true, '')
   -- local separator = ' > '
@@ -28,9 +21,11 @@ local function layout()
   -- local has_location = location ~= ''
   -- return ' ' .. icon .. ' ' .. fname .. ' ' .. location
   -- return string.format(' %s %s%s%s', icon, fname, has_location and separator or '', location)
-end
 
--- vim.cmd[[hi KisslineTabActive guibg=#3E4452]]
+  local win = api.nvim_get_current_win()
+  local buf = api.nvim_get_current_buf()
+  return tab.generateWinTab(buf, win, win == active_win)
+end
 
 return {
   update_cur_win = update_cur_win,
