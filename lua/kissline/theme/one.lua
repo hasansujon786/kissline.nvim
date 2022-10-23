@@ -71,11 +71,11 @@ local function genWinBarColors(tabStyle)
     hl.createhighlight('KisslineWinBarSeparatorInactive', tabcolors.tabline.bg, tabcolors.tabInactive.bg)
   else
     local tabcolors = {
-      tabline       = { bg = '#21252b', fg = '#5C6370'},
+      tabline       = { bg = '#21252b', fg = '#546178'},
       tabActive     = { bg = '#2D3343', fg = '#dddddd'},
-      tabActiveSp   = { bg = '#242b38', fg = '#61AFEF'},
-      tabInactive   = { bg = '#2D3343', fg = '#5C6370'},
-      tabInactiveSp = { bg = '#21252b', fg = '#17191C'},
+      tabInactive   = { bg = '#2D3343', fg = '#546178'},
+      tabActiveSp   = { bg = '#2D3343', fg = '#61AFEF'},
+      tabInactiveSp = { bg = '#2D3343', fg = '#2D3343'},
     }
     hl.createhighlight('KisslineWinBarLine', tabcolors.tabline.fg, tabcolors.tabline.bg)
     hl.createhighlight('KisslineWinBarActiveDim', tabcolors.tabline.fg, tabcolors.tabActive.bg)
