@@ -56,39 +56,42 @@ local function genTabColors(tabStyle)
   end
 end
 
-local function genWinBarColors(tabStyle)
+local function genWinbarColors(tabStyle)
   if tabStyle == 'angel_bar' then
     local tabcolors = {
     tabline     = { bg = '#16181c', fg = '#5C6370'},
     tabActive   = { bg = '#242b38', fg = '#dddddd'},
     tabInactive = { bg = '#1e2127', fg = '#5C6370'}
     }
-    hl.createhighlight('KisslineWinBarLine', tabcolors.tabline.fg, tabcolors.tabline.bg)
-    hl.createhighlight('KisslineWinBarActiveDim', tabcolors.tabline.fg, tabcolors.tabActive.bg)
-    hl.createhighlight('KisslineWinBarActive', tabcolors.tabActive.fg, tabcolors.tabActive.bg)
-    hl.createhighlight('KisslineWinBarSeparatorActive', tabcolors.tabline.bg, tabcolors.tabActive.bg)
-    hl.createhighlight('KisslineWinBarInactive', tabcolors.tabInactive.fg, tabcolors.tabInactive.bg)
-    hl.createhighlight('KisslineWinBarSeparatorInactive', tabcolors.tabline.bg, tabcolors.tabInactive.bg)
+    hl.createhighlight('KisslineWinbarLine', tabcolors.tabline.fg, tabcolors.tabline.bg)
+    hl.createhighlight('KisslineWinbarActiveDim', tabcolors.tabline.fg, tabcolors.tabActive.bg)
+    hl.createhighlight('KisslineWinbarActive', tabcolors.tabActive.fg, tabcolors.tabActive.bg)
+    hl.createhighlight('KisslineWinbarSeparatorActive', tabcolors.tabline.bg, tabcolors.tabActive.bg)
+    hl.createhighlight('KisslineWinbarInactive', tabcolors.tabInactive.fg, tabcolors.tabInactive.bg)
+    hl.createhighlight('KisslineWinbarSeparatorInactive', tabcolors.tabline.bg, tabcolors.tabInactive.bg)
   else
     local tabcolors = {
-      tabline       = { bg = '#21252b', fg = '#546178'},
+      tabline       = { bg = '#21252b', fg = '#7e8b9e'},
       tabActive     = { bg = '#2D3343', fg = '#dddddd'},
-      tabInactive   = { bg = '#2D3343', fg = '#546178'},
+      tabInactive   = { bg = '#2D3343', fg = '#7e8b9e'},
       tabActiveSp   = { bg = '#2D3343', fg = '#61AFEF'},
       tabInactiveSp = { bg = '#2D3343', fg = '#2D3343'},
     }
-    hl.createhighlight('KisslineWinBarLine', tabcolors.tabline.fg, tabcolors.tabline.bg)
-    hl.createhighlight('KisslineWinBarActiveDim', tabcolors.tabline.fg, tabcolors.tabActive.bg)
-    hl.createhighlight('KisslineWinBarActive', tabcolors.tabActive.fg, tabcolors.tabActive.bg)
-    hl.createhighlight('KisslineWinBarSeparatorActive', tabcolors.tabActiveSp.fg, tabcolors.tabActiveSp.bg)
-    hl.createhighlight('KisslineWinBarInactive', tabcolors.tabInactive.fg, tabcolors.tabInactive.bg)
-    hl.createhighlight('KisslineWinBarSeparatorInactive', tabcolors.tabInactiveSp.fg, tabcolors.tabInactiveSp.bg)
+    hl.createhighlight('KisslineWinbarLine', tabcolors.tabline.fg, tabcolors.tabline.bg)
+
+    hl.createhighlight('KisslineWinbarActive', tabcolors.tabActive.fg, tabcolors.tabActive.bg)
+    hl.createhighlight('KisslineWinbarInactive', tabcolors.tabInactive.fg, tabcolors.tabInactive.bg)
+
+    hl.createhighlight('KisslineWinbarActiveDim', tabcolors.tabline.fg, tabcolors.tabActive.bg)
+
+    hl.createhighlight('KisslineWinbarSeparatorActive', tabcolors.tabActiveSp.fg, tabcolors.tabActiveSp.bg)
+    hl.createhighlight('KisslineWinbarSeparatorInactive', tabcolors.tabInactiveSp.fg, tabcolors.tabInactiveSp.bg)
   end
 end
 
 local function init(opts)
   if opts.eneble_winbar then
-    genWinBarColors(opts.tab_style)
+    genWinbarColors(opts.tab_style)
   end
   if not opts.disable_tab then
     genTabColors(opts.tab_style)
