@@ -27,8 +27,22 @@ local function layout()
   return tab.generateWinTab(buf, win, win == active_win)
 end
 
-_G.close_win = function()
-  vim.cmd([[quit]])
+_G.close_win = function(win, count, button, mod)
+  if button ~= "l" then
+    return
+  end
+
+  local ok_close = pcall(api.nvim_win_close, win, true)
+  if not ok_close then
+    local ok_quit = pcall(vim.cmd, 'quit')
+    if not ok_quit then
+      vim.notify('E37: Some file has not been saved since last change', vim.log.levels.WARN)
+    end
+  end
+end
+
+_G.kissline_focus_win = function(win, count, button, mod)
+  api.nvim_set_current_win(win)
 end
 
 return {
