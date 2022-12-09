@@ -27,6 +27,10 @@ M.get_default = function(x, default)
   return M.if_nil(x, default, x)
 end
 
+M.is_floting_window = function(winid)
+  return vim.api.nvim_win_get_config(winid).relative ~= ''
+end
+
 M.git_branch = function()
   local isReadonly = vim.api.nvim_buf_get_option(0, 'readonly')
   local isModifiable = vim.api.nvim_buf_get_option(0, 'modifiable')

@@ -2,14 +2,21 @@
 -- local icon_provider = require('kissline.profider.icon')
 -- local navic = require('nvim-navic')
 local tab = require('kissline.tab')
+local utils = require('kissline.utils')
 
 local api = vim.api
 local fn = vim.fn
 -- state
 local active_win = 0
--- TODO: <05.10.22> get active_win proper way
 
-local function update_cur_win()
+local function update_cur_win(shouldCheckFloat)
+  if utils.is_floting_window(0) and shouldCheckFloat then
+    vim.defer_fn(function()
+      update_cur_win(false)
+    end, 1)
+    return
+  end
+
   active_win = api.nvim_get_current_win()
 end
 
@@ -28,7 +35,7 @@ local function layout()
 end
 
 _G.close_win = function(win, count, button, mod)
-  if button ~= "l" then
+  if button ~= 'l' then
     return
   end
 

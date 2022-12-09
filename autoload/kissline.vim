@@ -23,7 +23,7 @@ endfunction
 function kissline#_init_winbar_autocommands() abort
   augroup Kissline_winbar
     au!
-    au FocusGained,WinEnter,BufEnter * lua require('kissline.winbar').update_cur_win()
+    au FocusGained,WinEnter,BufEnter,WinLeave,BufLeave,WinClosed * lua require('kissline.winbar').update_cur_win(true)
     au ColorScheme * lua require('kissline.theme.one').init(require('kissline.configs').options)
   augroup END
 endfunction
