@@ -81,7 +81,7 @@ local function generateWinTab(buf, win, isSelected)
   return string.format(
     '%s%s%s%%#KisslineWinbarLine#',
     at.clicable(at.withHl('⏽', barHl), 'kissline_focus_win', win),
-    at.clicable(at.withHl(getTabName(buf, true, tabHl), tabHl), 'kissline_focus_win', win),
+    at.clicable(at.withHl(getTabName(buf, isSelected, tabHl), tabHl), 'kissline_focus_win', win),
     at.clicable(isModified and dot or buttonClose, 'close_win', win)
   )
 end
