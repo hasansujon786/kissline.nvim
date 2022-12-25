@@ -71,18 +71,19 @@ local generateTab = function(tabNr, isSelected)
   end
 end
 
-local function generateWinTab(buf, win, isSelected)
-  local tabHl = isSelected and 'KisslineWinbarActive' or 'KisslineWinbarInactive'
-  local barHl = isSelected and 'KisslineWinbarSeparatorActive' or 'KisslineWinbarSeparatorInactive'
-  local dot = at.withHl(' ● ', isSelected and 'KisslineWinbarActive' or 'KisslineWinbarActiveDim')
-  local buttonClose = at.withHl('  ', 'KisslineWinbarActiveDim')
+local function generateWinTab(buf, win, isActive)
   local isModified = vim.api.nvim_buf_get_option(buf, 'modified')
+  local tabHl = isActive and 'KisslineWinbarActive' or 'KisslineWinbarInactive'
+  local barHl = isActive and 'KisslineWinbarIndicatorActive' or 'KisslineWinbarIndicatorInactive'
+  local dot = at.withHl(' ●', isActive and 'KisslineWinbarItemActive' or 'KisslineWinbarItemInactive')
+  local buttonClose = at.withHl(' ', isActive and 'KisslineWinbarItemActive' or 'KisslineWinbarItemInactive')
 
   return string.format(
-    '%s%s%s%%#KisslineWinbarLine#',
+    '%s%s%s%s%%#KisslineWinbarLine#',
     at.clicable(at.withHl('⏽', barHl), 'kissline_focus_win', win),
-    at.clicable(at.withHl(getTabName(buf, isSelected, tabHl), tabHl), 'kissline_focus_win', win),
-    at.clicable(isModified and dot or buttonClose, 'close_win', win)
+    at.clicable(at.withHl(getTabName(buf, isActive, tabHl), tabHl), 'kissline_focus_win', win),
+    at.clicable(isModified and dot or buttonClose, 'close_win', win),
+    at.withHl('▕', 'KisslineWinbarSeparator')
   )
 end
 
