@@ -57,41 +57,27 @@ local function genTabColors(tabStyle)
 end
 
 local function genWinbarColors(tabStyle)
-  if tabStyle == 'angel_bar' then
-    local tabcolors = {
-    tabline     = { bg = '#16181c', fg = '#5C6370'},
-    tabActive   = { bg = '#242b38', fg = '#dddddd'},
-    tabInactive = { bg = '#1e2127', fg = '#5C6370'}
-    }
-    hl.createhighlight('KisslineWinbarLine', tabcolors.tabline.fg, tabcolors.tabline.bg)
-    hl.createhighlight('KisslineWinbarActiveDim', tabcolors.tabline.fg, tabcolors.tabActive.bg)
-    hl.createhighlight('KisslineWinbarActive', tabcolors.tabActive.fg, tabcolors.tabActive.bg)
-    hl.createhighlight('KisslineWinbarSeparatorActive', tabcolors.tabline.bg, tabcolors.tabActive.bg)
-    hl.createhighlight('KisslineWinbarInactive', tabcolors.tabInactive.fg, tabcolors.tabInactive.bg)
-    hl.createhighlight('KisslineWinbarSeparatorInactive', tabcolors.tabline.bg, tabcolors.tabInactive.bg)
-  else
-    -- local main = '#2D3343'
-    local main = '#242B38'
-    local tabcolors = {
-      tabline         = { fg = '#5C6370', bg = '#1f262d' }, -- fg = '#7e8b9e'
-      tabActive       = { fg = '#dddddd', bg = main },
-      tabItemInactive = { fg = '#3d4451', bg = main },
-      tabIndicActive  = { fg = '#61AFEF', bg = main },
-      tabIndicInactive= { fg = main,      bg = main },
-      tabActiveTail   = { fg = '#1c1e24', bg = main },
-    }
+  local main = '#242B38'
+  local tabcolors = {
+    tabline         = { fg = '#5C6370', bg = '#1E242E' }, -- fg = '#7e8b9e'
+    tabActive       = { fg = '#dddddd', bg = main },
+    tabItemInactive = { fg = '#3d4451', bg = main },
+    tabIndicActive  = { fg = '#61AFEF', bg = main },
+    tabIndicInactive= { fg = main,      bg = main },
+    tabSeparator    = { fg = '#151820', bg = main },
+    green = '#97ca72',
+  }
 
-    hl.createhighlight('KisslineWinbarLine', tabcolors.tabline.fg, tabcolors.tabline.bg)
+  hl.createhighlight('KisslineWinbarLine', tabcolors.tabline.fg, tabcolors.tabline.bg)
+  hl.createhighlight('KisslineWinbarActive', tabcolors.tabActive.fg, tabcolors.tabActive.bg)
+  hl.createhighlight('KisslineWinbarInactive', tabcolors.tabline.fg, tabcolors.tabItemInactive.bg)
 
-    hl.createhighlight('KisslineWinbarActive', tabcolors.tabActive.fg, tabcolors.tabActive.bg)
-    hl.createhighlight('KisslineWinbarInactive', tabcolors.tabline.fg, tabcolors.tabItemInactive.bg)
-    hl.createhighlight('KisslineWinbarItemActive', tabcolors.tabline.fg, tabcolors.tabActive.bg)
-    hl.createhighlight('KisslineWinbarItemInactive', tabcolors.tabItemInactive.fg, tabcolors.tabItemInactive.bg)
-
-    hl.createhighlight('KisslineWinbarIndicatorActive', tabcolors.tabIndicActive.fg, tabcolors.tabIndicActive.bg)
-    hl.createhighlight('KisslineWinbarIndicatorInactive', tabcolors.tabIndicInactive.fg, tabcolors.tabIndicInactive.bg)
-    hl.createhighlight('KisslineWinbarSeparator', tabcolors.tabActiveTail.fg, tabcolors.tabActiveTail.bg)
-  end
+  hl.createhighlight('KisslineWinbarModified', tabcolors.green)
+  hl.createhighlight('KisslineWinbarSeparator', tabcolors.tabSeparator.fg)
+  hl.createhighlight('KisslineWinbarItemActive', tabcolors.tabline.fg)
+  hl.createhighlight('KisslineWinbarItemInactive', tabcolors.tabItemInactive.fg)
+  hl.createhighlight('KisslineWinbarIndicatorActive', tabcolors.tabIndicActive.fg)
+  hl.createhighlight('KisslineWinbarIndicatorInactive', tabcolors.tabIndicInactive.fg)
 end
 
 local function init(opts)
@@ -106,8 +92,8 @@ local function init(opts)
     hl.createhighlight('Kissline_cur_mode_sp_active', colors.normal, colors.visual_grey)
 
     for key, value in pairs(colors) do
-      hl.createhighlight('Kissline_mode_'..key, '#2C323C', value, 'bold')
-      hl.createhighlight('Kissline_mode_sp_'..key, value,'#3E4452')
+      hl.createhighlight('Kissline_mode_' .. key, '#2C323C', value, 'bold')
+      hl.createhighlight('Kissline_mode_sp_' .. key, value, '#3E4452')
     end
   end
 end
@@ -115,4 +101,3 @@ end
 return {
   init = init,
 }
-
