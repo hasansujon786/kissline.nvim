@@ -23,6 +23,14 @@ M.if_nil = function(x, was_nil, was_not_nil)
   end
 end
 
+M.is_fn = function(value)
+  return type(value) == 'function'
+end
+
+M.merge = function(...)
+  return vim.tbl_deep_extend('force', ...)
+end
+
 M.get_default = function(x, default)
   return M.if_nil(x, default, x)
 end

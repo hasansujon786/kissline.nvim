@@ -3,6 +3,7 @@
 -- local navic = require('nvim-navic')
 local tab = require('kissline.tab')
 local utils = require('kissline.utils')
+local configs = require('kissline.configs')
 
 local api = vim.api
 local fn = vim.fn
@@ -49,7 +50,14 @@ _G.close_win = function(win, count, button, mod)
 end
 
 _G.kissline_focus_win = function(win, count, button, mod)
-  api.nvim_set_current_win(win)
+  local rename = configs.options.actions.rename
+  if button == 'l' and count == 2 and rename.eneble and utils.is_fn(rename.fn) then
+    rename.fn(win)
+    return
+  end
+  if button == 'l' and count == 1 then
+    api.nvim_set_current_win(win)
+  end
 end
 
 return {

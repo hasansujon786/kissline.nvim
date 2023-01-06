@@ -75,8 +75,8 @@ local function generateWinTab(buf, win, isActive)
   local isModified = vim.api.nvim_buf_get_option(buf, 'modified')
   local tabHl = isActive and 'KisslineWinbarActive' or 'KisslineWinbarInactive'
   local barHl = isActive and 'KisslineWinbarIndicatorActive' or 'KisslineWinbarIndicatorInactive'
-  local dot = at.withHl(' ●', isActive and 'KisslineWinbarModified' or 'KisslineWinbarItemInactive')
-  local buttonClose = at.withHl(' ', isActive and 'KisslineWinbarItemActive' or 'KisslineWinbarItemInactive')
+  local dot = at.withHl('●', isActive and 'KisslineWinbarModified' or 'KisslineWinbarItemInactive')
+  local buttonClose = at.withHl('', isActive and 'KisslineWinbarItemActive' or 'KisslineWinbarItemInactive')
 
   return string.format(
     '%s%s%s%s%%#KisslineWinbarLine#',

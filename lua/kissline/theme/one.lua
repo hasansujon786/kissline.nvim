@@ -84,10 +84,10 @@ local function init(opts)
   if opts.eneble_winbar then
     genWinbarColors(opts.tab_style)
   end
-  if not opts.disable_tab then
+  if opts.eneble_tab then
     genTabColors(opts.tab_style)
   end
-  if not opts.disable_line then
+  if opts.eneble_line then
     hl.createhighlight('Kissline_cur_mode_active', colors.black, colors.normal, 'bold')
     hl.createhighlight('Kissline_cur_mode_sp_active', colors.normal, colors.visual_grey)
 
