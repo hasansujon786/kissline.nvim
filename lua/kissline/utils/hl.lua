@@ -1,6 +1,7 @@
 local M = {}
 
 function M.createhighlight(name, foreground, background, gui)
+  name = name:gsub('-', '')
   local command = { 'highlight', name }
   if foreground and foreground ~= 'none' then
     table.insert(command, 'guifg=' .. foreground)
