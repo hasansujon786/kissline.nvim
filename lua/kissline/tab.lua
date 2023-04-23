@@ -76,11 +76,11 @@ local function generateWinTab(buf, win, isActive)
   local tabHl = isActive and 'KisslineWinbarActive' or 'KisslineWinbarInactive'
   local barHl = isActive and 'KisslineWinbarIndicatorActive' or 'KisslineWinbarIndicatorInactive'
   local dot = at.withHl('●', isActive and 'KisslineWinbarModified' or 'KisslineWinbarItemInactive')
-  local buttonClose = at.withHl('', isActive and 'KisslineWinbarItemActive' or 'KisslineWinbarItemInactive')
+  local buttonClose = at.withHl('', isActive and 'KisslineWinbarItemActive' or 'KisslineWinbarItemInactive')
 
   return string.format(
     '%s%s%s%s%%#KisslineWinbarLine#',
-    at.clicable(at.withHl('▍', barHl), 'kissline_focus_win', win),
+    at.clicable(at.withHl('▎', barHl), 'kissline_focus_win', win),
     at.clicable(at.withHl(getTabName(buf, isActive, tabHl), tabHl), 'kissline_focus_win', win),
     at.clicable(isModified and dot or buttonClose, 'close_win', win),
     at.withHl('▕', 'KisslineWinbarSeparator')
