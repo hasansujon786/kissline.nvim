@@ -7,7 +7,7 @@ M.default = {
   custon_winbar = {
     -- { title[1], tabHL[2], showActiveBar[3], showCloseBtn[4], showEndBar[5] }
     NvimTree = function()
-      return { '         EXPLORER         ', 'NvimTreeWinBar', false, false, false }
+      return { '         EXPLORER         ', 'Normal', false, false, false }
     end,
   },
   -- tab_style = 'angel_bar',

@@ -33,11 +33,12 @@ local function generateWinTab(buf, win, isActive)
   if custon_winbar then
     local data = custon_winbar()
     return string.format(
-      '%s%s%s%s%%#KisslineWinbarLine#',
+      '%s%s%s%s%s',
       data[3] and at.clicable(at.withHl('▎', barHl), 'kissline_focus_win', win) or '',
       at.clicable(at.withHl(data[1], data[2]), 'kissline_focus_win', win),
       data[4] and at.clicable(isModified and dot or buttonClose, 'close_win', win) or '',
-      data[5] and at.withHl('▕', 'KisslineWinbarSeparator') or ''
+      data[5] and at.withHl('▕', 'KisslineWinbarSeparator') or '',
+      data[6] and data[6] or ''
     )
   end
 
