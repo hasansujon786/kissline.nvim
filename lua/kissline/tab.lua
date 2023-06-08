@@ -71,22 +71,6 @@ local generateTab = function(tabNr, isSelected)
   end
 end
 
-local function generateWinTab(buf, win, isActive)
-  local isModified = vim.api.nvim_buf_get_option(buf, 'modified')
-  local tabHl = isActive and 'KisslineWinbarActive' or 'KisslineWinbarInactive'
-  local barHl = isActive and 'KisslineWinbarIndicatorActive' or 'KisslineWinbarIndicatorInactive'
-  local dot = at.withHl('●', isActive and 'KisslineWinbarModified' or 'KisslineWinbarItemInactive')
-  local buttonClose = at.withHl('', isActive and 'KisslineWinbarItemActive' or 'KisslineWinbarItemInactive')
-
-  return string.format(
-    '%s%s%s%s%%#KisslineWinbarLine#',
-    at.clicable(at.withHl('▎', barHl), 'kissline_focus_win', win),
-    at.clicable(at.withHl(getTabName(buf, isActive, tabHl), tabHl), 'kissline_focus_win', win),
-    at.clicable(isModified and dot or buttonClose, 'close_win', win),
-    at.withHl('▕', 'KisslineWinbarSeparator')
-  )
-end
-
 local tabs = function()
   local i = 1
   local tabs = '%#KisslineTabLine#'
@@ -135,5 +119,5 @@ return {
     local width = vim.api.nvim_get_option('columns') - 6
     tabsCanFit = math.floor(width / maxTabLenght)
   end,
-  generateWinTab = generateWinTab,
+  getTabName = getTabName,
 }

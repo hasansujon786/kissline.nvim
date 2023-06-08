@@ -4,6 +4,7 @@
 local tab = require('kissline.tab')
 local utils = require('kissline.utils')
 local configs = require('kissline.configs')
+local at = require('kissline.utils.atoms')
 
 local api = vim.api
 local fn = vim.fn
@@ -21,6 +22,34 @@ local function update_cur_win(shouldCheckFloat)
   active_win = api.nvim_get_current_win()
 end
 
+local function generateWinTab(buf, win, isActive)
+  local isModified = vim.api.nvim_buf_get_option(buf, 'modified')
+  local tabHl = isActive and 'KisslineWinbarActive' or 'KisslineWinbarInactive'
+  local barHl = isActive and 'KisslineWinbarIndicatorActive' or 'KisslineWinbarIndicatorInactive'
+  local dot = at.withHl('●', isActive and 'KisslineWinbarModified' or 'KisslineWinbarItemInactive')
+  local buttonClose = at.withHl('', isActive and 'KisslineWinbarItemActive' or 'KisslineWinbarItemInactive')
+
+  local custon_winbar = configs.options.custon_winbar[vim.bo.filetype]
+  if custon_winbar then
+    local data = custon_winbar()
+    return string.format(
+      '%s%s%s%s%%#KisslineWinbarLine#',
+      data[3] and at.clicable(at.withHl('▎', barHl), 'kissline_focus_win', win) or '',
+      at.clicable(at.withHl(data[1], data[2]), 'kissline_focus_win', win),
+      data[4] and at.clicable(isModified and dot or buttonClose, 'close_win', win) or '',
+      data[5] and at.withHl('▕', 'KisslineWinbarSeparator') or ''
+    )
+  end
+
+  return string.format(
+    '%s%s%s%s%%#KisslineWinbarLine#',
+    at.clicable(at.withHl('▎', barHl), 'kissline_focus_win', win),
+    at.clicable(at.withHl(tab.getTabName(buf, isActive, tabHl), tabHl), 'kissline_focus_win', win),
+    at.clicable(isModified and dot or buttonClose, 'close_win', win),
+    at.withHl('▕', 'KisslineWinbarSeparator')
+  )
+end
+
 local function layout()
   -- local fname = file_provider.filename(buf)
   -- local icon = icon_provider.fileIcon(buf, true, '')
@@ -32,7 +61,7 @@ local function layout()
 
   local win = api.nvim_get_current_win()
   local buf = api.nvim_get_current_buf()
-  return tab.generateWinTab(buf, win, win == active_win)
+  return generateWinTab(buf, win, win == active_win)
 end
 
 _G.close_win = function(win, count, button, mod)
